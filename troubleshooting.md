@@ -15,6 +15,7 @@ This guide covers common issues and their solutions when using PCILeech Firmware
 - [VFIO Binding Problems](#vfio-binding-problems)
 - [Build Failures](#build-failures)
 - [Device-Specific Issues](#device-specific-issues)
+- [SystemVerilog Generation Errors](#systemverilog-generation-errors)
 - [Getting Help](#getting-help)
 
 ## VFIO Setup Issues
@@ -243,6 +244,268 @@ Large BAR sizes may cause issues:
 2. Enable Resizable BAR support
 3. Consider using a specific BAR if multiple are present
 
+## SystemVerilog Generation Errors
+
+The SystemVerilog generator includes comprehensive error handling and validation. Here are the most common errors and their solutions:
+
+### Template Rendering Errors
+
+#### Error: "TemplateRenderError: Failed to render SystemVerilog template"
+
+**Cause:** Template file is missing, corrupted, or contains syntax errors.
+
+**Solutions:**
+1. **Check template file exists:**
+   ```bash
+   find src/templates/ -name "*.j2" | grep systemverilog
+   ```
+
+2. **Validate template syntax:**
+   ```bash
+   python3 -c "from jinja2 import Template; Template(open('template_file.j2').read())"
+   ```
+
+3. **Clear template cache:**
+   ```bash
+   rm -rf __pycache__/ src/templating/__pycache__/
+   ```
+
+#### Error: "device_config is missing from template context"
+
+**Cause:** Critical device configuration data is missing or invalid.
+
+**Solutions:**
+1. **Verify device configuration:**
+   ```bash
+   # Check device is properly detected
+   sudo python3 pcileech.py check --device 0000:XX:XX.X
+   ```
+
+2. **Ensure device has valid vendor/device IDs:**
+   ```bash
+   lspci -n -s 0000:XX:XX.X
+   ```
+
+### Device Configuration Validation Errors
+
+#### Error: "Invalid device_type: Must be a DeviceType enum"
+
+**Cause:** Device type is not properly recognized or classified.
+
+**Solutions:**
+1. **Check supported device types:**
+   - GENERIC (fallback for unknown devices)
+   - NETWORK_CARD
+   - STORAGE_CONTROLLER
+   - AUDIO_CONTROLLER
+   - GRAPHICS_CARD
+
+2. **Force device type:**
+   ```bash
+   # Use generic type for unsupported devices
+   python3 pcileech.py build --device-type generic 0000:XX:XX.X
+   ```
+
+#### Error: "Invalid max_payload_size: Must be positive"
+
+**Cause:** Device configuration contains invalid PCIe parameters.
+
+**Solutions:**
+1. **Check device capabilities:**
+   ```bash
+   sudo lspci -vvv -s 0000:XX:XX.X | grep -A 5 "DevCap"
+   ```
+
+2. **Valid payload sizes:** 128, 256, 512, 1024, 2048, 4096 bytes
+
+#### Error: "Invalid tx_queue_depth: Must be between 1 and 65536"
+
+**Cause:** Queue depth parameters are outside valid ranges.
+
+**Solutions:**
+1. **Use standard queue depths:**
+   - Small devices: 64-256
+   - Network cards: 256-1024
+   - High-performance: 1024-4096
+
+### MSI-X Related Errors
+
+#### Error: "Failed to read actual MSI-X table data from hardware"
+
+**Cause:** Cannot access MSI-X table via VFIO for hardware-accurate generation.
+
+**Solutions:**
+1. **Verify VFIO access:**
+   ```bash
+   # Check device is bound to vfio-pci
+   readlink /sys/bus/pci/devices/0000:XX:XX.X/driver
+   ```
+
+2. **Check MSI-X capability:**
+   ```bash
+   sudo lspci -vvv -s 0000:XX:XX.X | grep -A 10 "MSI-X"
+   ```
+
+3. **Verify BAR accessibility:**
+   ```bash
+   # Check BAR containing MSI-X table is mappable
+   cat /sys/bus/pci/devices/0000:XX:XX.X/resource*
+   ```
+
+#### Error: "MSI-X table extends beyond BAR boundary"
+
+**Cause:** MSI-X table offset + size exceeds BAR size.
+
+**Solutions:**
+1. **Check BAR sizes:**
+   ```bash
+   for i in 0 1 2 3 4 5; do
+     echo "BAR$i: $(cat /sys/bus/pci/devices/0000:XX:XX.X/resource$i)"
+   done
+   ```
+
+2. **Verify MSI-X table location:**
+   ```bash
+   sudo lspci -vvv -s 0000:XX:XX.X | grep -A 5 "MSI-X.*Table"
+   ```
+
+### Register Extraction Errors
+
+#### Error: "Behavior profile missing 'register_accesses' attribute"
+
+**Cause:** Device behavior profiling failed or produced incomplete data.
+
+**Solutions:**
+1. **Re-run device profiling:**
+   ```bash
+   sudo python3 pcileech.py profile --device 0000:XX:XX.X --duration 30
+   ```
+
+2. **Check device is active:**
+   ```bash
+   # Ensure device is not in power-saving mode
+   cat /sys/bus/pci/devices/0000:XX:XX.X/power_state
+   ```
+
+#### Error: "No valid registers extracted from behavior profile"
+
+**Cause:** Device showed no register activity during profiling.
+
+**Solutions:**
+1. **Increase profiling duration:**
+   ```bash
+   sudo python3 pcileech.py profile --device 0000:XX:XX.X --duration 120
+   ```
+
+2. **Generate device activity:**
+   ```bash
+   # For network cards, generate traffic
+   ping -c 10 8.8.8.8  # if device is active interface
+   ```
+
+3. **Use manual register map:**
+   ```bash
+   # Specify known registers manually
+   python3 pcileech.py build --manual-registers registers.yaml 0000:XX:XX.X
+   ```
+
+### VFIO Hardware Access Errors
+
+#### Error: "mmap failed with EINVAL - BAR may not be mappable"
+
+**Cause:** BAR cannot be memory-mapped via VFIO.
+
+**Solutions:**
+1. **Check BAR type:**
+   ```bash
+   sudo lspci -vvv -s 0000:XX:XX.X | grep -A 20 "Region"
+   ```
+
+2. **Verify IOMMU configuration:**
+   ```bash
+   sudo dmesg | grep -i iommu | grep -i error
+   ```
+
+3. **Try different BAR:**
+   ```bash
+   # Use a different memory BAR if available
+   python3 pcileech.py build --target-bar 2 0000:XX:XX.X
+   ```
+
+#### Error: "Could not find BAR for MSI-X table access"
+
+**Cause:** MSI-X table BAR index (BIR) doesn't match available BARs.
+
+**Solutions:**
+1. **Check MSI-X table BIR:**
+   ```bash
+   sudo lspci -vvv -s 0000:XX:XX.X | grep "MSI-X.*Table"
+   ```
+
+2. **Verify BAR mapping:**
+   ```bash
+   # Check which BARs are actually present
+   ls -la /sys/bus/pci/devices/0000:XX:XX.X/resource*
+   ```
+
+### Template Context Validation Errors
+
+#### Error: "Template context validation failed with X critical errors"
+
+**Cause:** Multiple validation failures in device configuration.
+
+**Solutions:**
+1. **Check full error details in logs**
+2. **Common validation failures:**
+   - Missing vendor_id/device_id (must be 4-character hex)
+   - Invalid frequency parameters (1-2000 MHz range)
+   - Queue depths outside valid ranges
+   - Missing device type/class enums
+
+3. **Use diagnostic mode:**
+   ```bash
+   python3 pcileech.py build --validate-only 0000:XX:XX.X
+   ```
+
+### Power Management Errors
+
+#### Error: "Device configuration validation failed: frequency out of range"
+
+**Cause:** Clock frequency parameters are outside safe operating ranges.
+
+**Solutions:**
+1. **Use standard frequencies:**
+   - Base frequency: 100-250 MHz
+   - Memory frequency: 200-800 MHz
+
+2. **Check device specifications:**
+   ```bash
+   # Look up device datasheet for valid frequencies
+   sudo lspci -vvv -s 0000:XX:XX.X | grep "LnkCap.*Speed"
+   ```
+
+### Prevention and Best Practices
+
+1. **Always run device check first:**
+   ```bash
+   sudo python3 pcileech.py check --device 0000:XX:XX.X
+   ```
+
+2. **Use verbose logging:**
+   ```bash
+   python3 pcileech.py build --verbose 0000:XX:XX.X
+   ```
+
+3. **Validate configuration:**
+   ```bash
+   python3 pcileech.py build --validate-only 0000:XX:XX.X
+   ```
+
+4. **Keep devices active during generation:**
+   ```bash
+   echo on > /sys/bus/pci/devices/0000:XX:XX.X/power/control
+   ```
+
 ## Getting Help
 
 If you encounter issues not covered here:
@@ -264,6 +527,11 @@ When debugging, look for these log prefixes:
 - `[VFIO]` - VFIO binding and access messages
 - `[BIND]` - Device binding operations
 - `[PCIL]` - PCILeech generator core messages
+- `[SVGEN]` - SystemVerilog generation messages
+- `[TMPL]` - Template rendering messages
+- `[MSIX]` - MSI-X table and capability messages
+- `[REG]` - Register extraction and validation messages
+- `[VALID]` - Configuration validation messages
 
 ## Prevention Tips
 
