@@ -1,0 +1,220 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+	</head>
+	<body>
+		<Header />
+		<main>
+			<h1>PCILeech Firmware Generator</h1>
+			
+			<div class="badges">
+				<img src="https://github.com/ramseymcgrath/PCILeechFWGenerator/workflows/CI/badge.svg" alt="CI Status" />
+				<img src="https://codecov.io/gh/ramseymcgrath/PCILeechFWGenerator/branch/main/graph/badge.svg" alt="Coverage" />
+				<img src="https://dcbadge.limes.pink/api/shield/429866199833247744" alt="Discord" />
+			</div>
+
+			<p class="hero-description">
+				Generate authentic PCIe DMA firmware from real donor hardware with a single command. This tool extracts donor configurations from a local device and generates unique PCILeech FPGA bitstreams (and optionally flashes a DMA card over USB-JTAG).
+			</p>
+
+			<div class="warning">
+				<strong>Warning:</strong> This tool requires <em>real</em> hardware. The templates are built using the device identifiers directly from a donor card and placeholder values are explicitly avoided. Using your own donor device ensures your firmware will be unique.
+			</div>
+
+			<h2>✨ Key Features</h2>
+			<ul>
+				<li><strong>Donor Hardware Analysis</strong>: Extract real PCIe device configurations and register maps from live hardware via VFIO</li>
+				<li><strong>Dynamic Device Capabilities</strong>: Generate realistic network, storage, media, and USB controller capabilities with pattern-based analysis</li>
+				<li><strong>Full 4KB Config-Space Shadow</strong>: Complete configuration space emulation with BRAM-based overlay memory</li>
+				<li><strong>MSI-X Table Replication</strong>: Exact replication of MSI-X tables from donor devices with interrupt delivery logic</li>
+				<li><strong>Deterministic Variance Seeding</strong>: Consistent hardware variance based on device serial number for unique firmware</li>
+				<li><strong>Advanced SystemVerilog Generation</strong>: Comprehensive PCIe device controller with modular template architecture</li>
+				<li><strong>Active Device Interrupts</strong>: MSI-X interrupt controller with timer-based and event-driven interrupt generation</li>
+				<li><strong>Memory Overlay Mapping</strong>: BAR dispatcher with configurable memory regions and custom PIO windows</li>
+				<li><strong>Interactive TUI</strong>: Modern Textual-based interface with real-time device monitoring and guided workflows</li>
+				<li><strong>Containerized Build Pipeline</strong>: Podman-based synthesis environment with automated VFIO setup</li>
+				<li><strong>Automated Testing and Validation</strong>: Comprehensive test suite with SystemVerilog assertions and Python unit tests</li>
+				<li><strong>USB-JTAG Flashing</strong>: Direct firmware deployment to DMA boards via integrated flash utilities</li>
+			</ul>
+
+			<div class="quick-links">
+				<a href="/docs/device-cloning">🏗️ Device Cloning Guide</a>
+				<a href="/docs/development">🔧 Development Setup</a>
+				<a href="/docs/troubleshooting">🛠️ Troubleshooting</a>
+				<a href="/docs/no-fallback-policy">🔐 Security Policy</a>
+			</div>
+
+			<h2>🚀 Quick Start</h2>
+
+			<h3>Installation</h3>
+			<pre><code># Install with TUI support (recommended)
+pip install pcileechfwgenerator[tui]
+
+# Load required kernel modules
+sudo modprobe vfio vfio-pci</code></pre>
+
+			<h3>Requirements</h3>
+			<ul>
+				<li><strong>Python ≥ 3.9</strong></li>
+				<li><strong>Donor PCIe card</strong> (any inexpensive NIC, sound, or capture card)</li>
+				<li><strong>Linux OS</strong> (You need this)</li>
+			</ul>
+
+			<h3>Basic Usage</h3>
+			<pre><code># Interactive TUI (recommended for first-time users)
+sudo python3 pcileech.py tui
+
+# CLI interface for scripted builds
+sudo python3 pcileech.py build --bdf 0000:03:00.0 --board pcileech_35t325_x1
+
+# Check VFIO configuration
+sudo python3 pcileech.py check --device 0000:03:00.0
+
+# Flash firmware to device
+sudo python3 pcileech.py flash output/firmware.bin</code></pre>
+
+			<h2>📚 Documentation</h2>
+			
+			<div class="doc-sections">
+				<div class="doc-section">
+					<h3>Core Features & Architecture</h3>
+					<ul>
+						<li><a href="/docs/device-cloning">Device Cloning Process</a></li>
+						<li><a href="/docs/config-space-shadow">Configuration Space Shadow</a></li>
+						<li><a href="/docs/template-architecture">Template Architecture</a></li>
+						<li><a href="/docs/dynamic-device-capabilities">Dynamic Device Capabilities</a></li>
+						<li><a href="/docs/firmware-uniqueness">Firmware Authenticity & Stability</a></li>
+						<li><a href="/docs/no-fallback-policy">No-Fallback Security Policy</a></li>
+						<li><a href="/docs/supported-devices">Supported Devices</a></li>
+					</ul>
+				</div>
+				
+				<div class="doc-section">
+					<h3>Guides & Tutorials</h3>
+					<ul>
+						<li><a href="/docs/manual-donor-dump">Manual Donor Dump</a></li>
+						<li><a href="/docs/tui-readme">TUI Interface Guide</a></li>
+						<li><a href="/docs/development">Development Guide</a></li>
+						<li><a href="/docs/troubleshooting">Troubleshooting Guide</a></li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="legal-notice">
+				<h2>⚠️ Legal Notice</h2>
+				<p><strong>AGAIN</strong> This tool is intended for educational research and legitimate PCIe development purposes only. Users are responsible for ensuring compliance with all applicable laws and regulations. The authors assume no liability for misuse of this software.</p>
+			</div>
+		</main>
+		<Footer />
+	</body>
+</html>
+
+<style>
+	.badges {
+		display: flex;
+		gap: 8px;
+		margin: 1rem 0;
+		flex-wrap: wrap;
+	}
+	
+	.hero-description {
+		font-size: 1.1em;
+		line-height: 1.6;
+		margin: 1.5rem 0;
+	}
+	
+	.warning {
+		background: #fff3cd;
+		border: 1px solid #ffeaa7;
+		border-radius: 8px;
+		padding: 1rem;
+		margin: 1.5rem 0;
+	}
+	
+	.quick-links {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+		gap: 1rem;
+		margin: 1.5rem 0;
+	}
+	
+	.quick-links a {
+		display: block;
+		padding: 1rem;
+		background: #f8f9fa;
+		border: 1px solid #dee2e6;
+		border-radius: 8px;
+		text-decoration: none;
+		color: #495057;
+		font-weight: 500;
+		transition: all 0.2s ease;
+	}
+	
+	.quick-links a:hover {
+		background: #e9ecef;
+		border-color: #adb5bd;
+	}
+	
+	.doc-sections {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+		gap: 2rem;
+		margin: 1.5rem 0;
+	}
+	
+	.doc-section {
+		background: #f8f9fa;
+		border-radius: 8px;
+		padding: 1.5rem;
+	}
+	
+	.doc-section h3 {
+		margin-top: 0;
+		color: #495057;
+	}
+	
+	.doc-section ul {
+		margin: 0;
+		padding-left: 1.2rem;
+	}
+	
+	.doc-section li {
+		margin: 0.5rem 0;
+	}
+	
+	.legal-notice {
+		background: #f8d7da;
+		border: 1px solid #f5c6cb;
+		border-radius: 8px;
+		padding: 1.5rem;
+		margin: 2rem 0;
+	}
+	
+	pre {
+		background: #f8f9fa;
+		border: 1px solid #e9ecef;
+		border-radius: 4px;
+		padding: 1rem;
+		overflow-x: auto;
+	}
+	
+	code {
+		background: #f8f9fa;
+		padding: 0.2rem 0.4rem;
+		border-radius: 3px;
+		font-family: 'Courier New', monospace;
+	}
+	
+	pre code {
+		background: none;
+		padding: 0;
+	}
+</style>
