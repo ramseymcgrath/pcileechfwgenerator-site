@@ -1,0 +1,18 @@
+# MkDocs build output
+site/
+
+# Cloudflare Worker
+worker/node_modules/
+worker/.wrangler/
+worker/package-lock.json
+
+# Python virtual environment
+venv/
+.venv/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
