@@ -1,0 +1,106 @@
+name: Build and Deploy Documentation
+
+on:
+  push:
+    branches:
+      - main
+      - site-to-cloudflare-worker
+    paths:
+      - 'site/**'
+      - 'docs/**'
+      - '.github/workflows/docs.yml'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'site/**'
+      - 'docs/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  # Needed for git-revision-date-localized plugin
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+    
+    - name: Cache pip dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('site/requirements.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
+    
+    - name: Install dependencies
+      working-directory: site
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    
+    - name: Build MkDocs site
+      working-directory: site
+      run: |
+        mkdocs build --clean --strict
+    
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: mkdocs-site
+        path: site/site/
+        retention-days: 30
+    
+    # Only deploy on pushes to main branch
+    - name: Deploy to Cloudflare Pages
+      if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+      uses: cloudflare/pages-action@v1
+      with:
+        apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        projectName: pcileech-fw-generator-docs
+        directory: site/site
+        gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+        
+  validate:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+    
+    - name: Install dependencies
+      working-directory: site
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install linkchecker
+    
+    - name: Build site for validation
+      working-directory: site
+      run: mkdocs build --clean
+    
+    - name: Validate internal links
+      working-directory: site
+      run: |
+        # Start local server in background
+        mkdocs serve --dev-addr 127.0.0.1:8000 &
+        SERVER_PID=$!
+        sleep 5
+        
+        # Check links
+        linkchecker --check-extern http://127.0.0.1:8000 || true
+        
+        # Kill server
+        kill $SERVER_PID
