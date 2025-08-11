@@ -1,6 +1,6 @@
 site_name: PCILeech Firmware Generator
 site_description: Generate authentic PCIe DMA firmware from real donor hardware
-site_url: https://pcileechfwgenerator.pages.dev
+site_url: https://pcileechfwgenerator.ramseymcgrath.com
 repo_url: https://github.com/ramseymcgrath/PCILeechFWGenerator
 repo_name: ramseymcgrath/PCILeechFWGenerator
 edit_uri: edit/main/site/docs/
@@ -43,7 +43,7 @@ plugins:
   - mkdocstrings:
       handlers:
         python:
-          paths: [../src]
+          paths: [../]
           options:
             docstring_style: google
             show_source: true
