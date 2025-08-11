@@ -40,6 +40,23 @@ plugins:
   - git-revision-date-localized:
       enable_creation_date: true
   - git-authors
+  - mkdocstrings:
+      handlers:
+        python:
+          paths: [../src]
+          options:
+            docstring_style: google
+            show_source: true
+            show_bases: true
+            show_signature_annotations: true
+            show_if_no_docstring: true
+            inherited_members: false
+            members_order: source
+            separate_signature: true
+            unwrap_annotated: true
+            filters: ["!^_"]
+            merge_init_into_class: true
+            docstring_section_style: spacy
 
 markdown_extensions:
   - admonition
@@ -81,6 +98,16 @@ nav:
       - Supported Devices: supported-devices.md
       - No Fallback Policy: no-fallback-policy.md
       - Troubleshooting: troubleshooting.md
+  - API Reference:
+    - Overview: api/index.md
+    - CLI: api/cli.md
+    - Device Clone: api/device_clone.md
+    - PCI Capability: api/pci_capability.md
+    - File Management: api/file_management.md
+    - Templating: api/templating.md
+    - Vivado Handling: api/vivado_handling.md
+    - TUI: api/tui.md
+    - Utils: api/utils.md
   - Development:
     - Development Guide: development.md
     - Contributing: ../CONTRIBUTING.rst

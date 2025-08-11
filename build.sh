@@ -1,12 +1,16 @@
 #!/bin/bash
-
-# Build script for Cloudflare Worker deployment
-# This script builds the MkDocs site
+# This script builds the MkDocs site using npm commands
 
 set -e
 
 echo "🚀 Building PCILeech Firmware Generator Documentation"
 echo "=================================================="
+
+# Check if npm is available
+if ! command -v npm &> /dev/null; then
+    echo "❌ npm is required but not installed"
+    exit 1
+fi
 
 # Check if Python is available
 if ! command -v python3 &> /dev/null; then
@@ -14,23 +18,22 @@ if ! command -v python3 &> /dev/null; then
     exit 1
 fi
 
-# Create virtual environment if it doesn't exist
+# Install Python dependencies if needed
+echo "📦 Installing Python dependencies..."
 if [ ! -d "venv" ]; then
-    echo "📦 Creating Python virtual environment..."
     python3 -m venv venv
 fi
-
-# Activate virtual environment
-echo "🔧 Activating virtual environment..."
 source venv/bin/activate
-
-# Install dependencies
-echo "📥 Installing dependencies..."
 pip install -q -r requirements.txt
 
-# Build the site
+# Navigate to worker directory and install dependencies
+echo "📦 Installing npm dependencies..."
+cd worker
+npm install
+
+# Build the documentation site
 echo "🏗️  Building MkDocs site..."
-mkdocs build --clean --strict
+npm run build:docs
 
 echo "✅ Build completed successfully!"
 echo "📁 Site built to: site/"
@@ -38,8 +41,7 @@ echo "📁 Site built to: site/"
 # Output some useful information
 echo ""
 echo "🌐 To serve locally:"
-echo "   mkdocs serve"
+echo "   npm run dev"
 echo ""
 echo "🚀 To deploy:"
-echo "   The 'site/' directory contains the built documentation"
-echo "   ready for deployment to Cloudflare Pages"
+echo "   npm run deploy"
