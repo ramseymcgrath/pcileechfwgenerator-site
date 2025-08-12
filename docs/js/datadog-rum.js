@@ -1,0 +1,73 @@
+// Datadog Real User Monitoring (RUM) for PCILeech Firmware Generator
+// Configuration fetched securely from Cloudflare Workers
+
+async function initializeDatadog() {
+  try {
+    // Fetch configuration from your Cloudflare Workers endpoint
+    const response = await fetch('https://api.ramseymcgrath.com/datadog-config', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    
+    const config = await response.json();
+    
+    // Load Datadog RUM script
+    (function(h,o,u,n,d) {
+      h=h[d]=h[d]||{q:[],onReady:function(c){h.q.push(c)}}
+      d=o.createElement(u);d.async=1;d.src=n
+      n=o.getElementsByTagName(u)[0];n.parentNode.insertBefore(d,n)
+    })(window,document,'script','https://www.datadoghq-browser-agent.com/us1/v6/datadog-rum.js','DD_RUM')
+    
+    // Initialize Datadog RUM with fetched configuration
+    window.DD_RUM.onReady(function() {
+      window.DD_RUM.init({
+        clientToken: config.clientToken,
+        applicationId: config.applicationId,
+        site: config.site || 'datadoghq.com',
+        service: config.service || 'pcileechfwgenerator',
+        env: config.env || 'prd',
+        sessionSampleRate: config.sessionSampleRate || 100,
+        sessionReplaySampleRate: config.sessionReplaySampleRate || 20,
+        defaultPrivacyLevel: config.defaultPrivacyLevel || 'mask-user-input',
+        version: config.version,
+        // Track user interactions
+        trackUserInteractions: true,
+        // Track resources (CSS, JS, images)
+        trackResources: true,
+        // Track long tasks
+        trackLongTasks: true,
+        // Enable frustration detection
+        trackFrustrations: true,
+      });
+
+      // Add custom user context if available
+      if (window.location.hostname.includes('localhost') || window.location.hostname.includes('127.0.0.1')) {
+        window.DD_RUM.setGlobalContextProperty('environment', 'development');
+      }
+
+      // Track documentation section visits
+      window.DD_RUM.addAction('documentation_visit', {
+        section: window.location.pathname,
+        referrer: document.referrer
+      });
+      
+      console.log('Datadog RUM initialized successfully');
+    });
+    
+  } catch (error) {
+    console.warn('Failed to initialize Datadog RUM:', error);
+  }
+}
+
+// Initialize when the page loads
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initializeDatadog);
+} else {
+  initializeDatadog();
+}

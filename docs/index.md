@@ -34,6 +34,12 @@ Generate authentic PCIe DMA firmware from real donor hardware with a single comm
 
 ## 🚀 Quick Start
 
+### Quick Start
+
+Ready to get started? Follow our step-by-step guide:
+
+**[📚 Quick Start Guide](quick-start.md)** - Complete walkthrough from installation to your first generated firmware
+
 ### Installation
 
 ```bash
@@ -42,44 +48,9 @@ pip install pcileechfwgenerator[tui]
 
 # Load required kernel modules
 sudo modprobe vfio vfio-pci
-```
 
-### Requirements
-
-- **Python ≥ 3.9**
-- **Donor PCIe card** (any inexpensive NIC, sound, or capture card)
-- **Linux OS** (You need this)
-
-### Optional Requirements
-
-- **Podman** (_not Docker_ - required for proper PCIe device mounting) You use podman or run the python locally. *You must use linux for either option
-- **DMA board** (pcileech_75t484_x1, pcileech_35t325_x4, or pcileech_100t484_x1) You don't need to flash your firmware with this tooling but you can.
-- **Vivado Studio** (2022.2+ for synthesis and bitstream generation) You can use a locally generated Vivado project or insert the files into an existing one.
-
-### Basic Usage
-
-```bash
-# Interactive TUI (recommended for first-time users)
+# Start with interactive interface
 sudo python3 pcileech.py tui
-
-# CLI interface for scripted builds
-sudo python3 pcileech.py build --bdf 0000:03:00.0 --board pcileech_35t325_x1
-
-# CLI build with custom Vivado settings
-sudo python3 pcileech.py build --bdf 0000:03:00.0 --board pcileech_35t325_x1 \
-    --vivado-path /tools/Xilinx/2025.1/Vivado --vivado-jobs 8 --vivado-timeout 7200
-
-# Check VFIO configuration
-sudo python3 pcileech.py check --device 0000:03:00.0
-
-# Flash firmware to device
-sudo python3 pcileech.py flash output/firmware.bin
-
-# Check for updates
-./cli --check-version
-
-# Skip automatic version check
-./cli build --skip-version-check --bdf 0000:03:00.0 --board pcileech_35t325_x1
 ```
 
 ### Development from Repository
@@ -107,7 +78,55 @@ sudo -E python3 pcileech.py tui
 - **Automated Testing and Validation**: Comprehensive test suite with SystemVerilog assertions and Python unit tests
 - **USB-JTAG Flashing**: Direct firmware deployment to DMA boards via integrated flash utilities
 
-📚 **[Complete Documentation](https://pcileechfwgenerator.ramseymcgrath.com)** | 🔧 **[Troubleshooting Guide](https://pcileechfwgenerator.ramseymcgrath.com/troubleshooting)** | 🏗️ **[Device Cloning Guide](https://pcileechfwgenerator.ramseymcgrath.com/device-cloning)** | ⚡ **[Dynamic Capabilities](https://pcileechfwgenerator.ramseymcgrath.com/dynamic-device-capabilities)** | 🛠️ **[Development Setup](https://pcileechfwgenerator.ramseymcgrath.com/development)**
+📚 **[Complete Documentation](https://pcileechfwgenerator.ramseymcgrath.com)** | ⚡ **[Quick Start Guide](quick-start.md)** | 🔧 **[Troubleshooting Guide](https://pcileechfwgenerator.ramseymcgrath.com/troubleshooting)** | 🏗️ **[Device Cloning Guide](https://pcileechfwgenerator.ramseymcgrath.com/device-cloning)** | ⚡ **[Dynamic Capabilities](https://pcileechfwgenerator.ramseymcgrath.com/dynamic-device-capabilities)** | 🛠️ **[Development Setup](https://pcileechfwgenerator.ramseymcgrath.com/development)**
+
+## 🚀 Getting Started
+
+Ready to get started? Follow our step-by-step guide:
+
+**[📚 Quick Start Guide](quick-start.md)** - Complete walkthrough from installation to your first generated firmware
+
+### Installation
+
+```bash
+# Install with TUI support (recommended)
+pip install pcileechfwgenerator[tui]
+
+# Load required kernel modules
+sudo modprobe vfio vfio-pci
+
+# Start with interactive interface
+sudo python3 pcileech.py tui
+```
+
+### Requirements
+
+- **Python ≥ 3.9**
+- **Donor PCIe card** (any inexpensive NIC, sound, or capture card)  
+- **Linux OS** (required for VFIO)
+- **Root access** (required for hardware operations)
+
+### Optional Requirements
+
+- **Podman** (for containerized builds)
+- **DMA board** (pcileech_75t484_x1, pcileech_35t325_x4, or pcileech_100t484_x1)
+- **Vivado Studio** (2022.2+ for synthesis and bitstream generation)
+
+### Basic Usage
+
+```bash
+# Interactive TUI (recommended for first-time users)
+sudo python3 pcileech.py tui
+
+# CLI interface for scripted builds
+sudo python3 pcileech.py build --bdf 0000:03:00.0 --board pcileech_35t325_x4
+
+# Check VFIO configuration
+sudo python3 pcileech.py check --device 0000:03:00.0
+
+# Flash firmware to device
+sudo python3 pcileech.py flash build/firmware.bin
+```
 
 ## 🎯 Use Cases
 
@@ -257,4 +276,4 @@ This project is licensed under the MIT License - see the [LICENSE](https://githu
 
 ---
 
-**Ready to get started?** Check out our [Installation Guide](installation.md) or dive into the [Quick Start](quick-start.md) tutorial!
+**Ready to get started?** Check out our [Quick Start Guide](quick-start.md) or read the [Installation Guide](installation.md) for detailed setup instructions!

@@ -566,9 +566,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#method-3-using-dockerpodman" class="md-nav__link">
+  <a href="#method-3-using-podman-recommended-for-synthesis" class="md-nav__link">
     <span class="md-ellipsis">
-      Method 3: Using Docker/Podman
+      Method 3: Using Podman (Recommended for Synthesis)
     </span>
   </a>
   
@@ -775,6 +775,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#additional-diagnostic-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      Additional Diagnostic Commands
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -786,6 +795,21 @@
       Next Steps
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Next Steps">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#environment-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      Environment Variables
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1603,6 +1627,29 @@
   
   
     <li class="md-nav__item">
+      <a href="../ci-status/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    CI/CD Status
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../CONTRIBUTING.rst" class="md-nav__link">
         
   
@@ -1737,9 +1784,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#method-3-using-dockerpodman" class="md-nav__link">
+  <a href="#method-3-using-podman-recommended-for-synthesis" class="md-nav__link">
     <span class="md-ellipsis">
-      Method 3: Using Docker/Podman
+      Method 3: Using Podman (Recommended for Synthesis)
     </span>
   </a>
   
@@ -1946,6 +1993,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#additional-diagnostic-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      Additional Diagnostic Commands
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1957,6 +2013,21 @@
       Next Steps
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Next Steps">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#environment-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      Environment Variables
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1997,24 +2068,27 @@
 <h2 id="system-requirements">System Requirements</h2>
 <h3 id="operating-system">Operating System</h3>
 <ul>
-<li><strong>Linux</strong>: Ubuntu 20.04+ (recommended), Debian 11+, RHEL 8+, or similar</li>
-<li><strong>Python</strong>: 3.8 or higher</li>
+<li><strong>Linux</strong>: Ubuntu 20.04+ (recommended), Debian 11+, RHEL 8+, or similar (Required)</li>
+<li><strong>Python</strong>: 3.9 or higher (3.8+ supported)</li>
 <li><strong>Memory</strong>: 4GB RAM minimum, 8GB recommended for complex devices</li>
 <li><strong>Storage</strong>: 2GB free space for FPGA tools and generated firmware</li>
 </ul>
 <h3 id="hardware-requirements">Hardware Requirements</h3>
 <ul>
-<li><strong>FPGA Development Board</strong>: Supported Xilinx board (see <a href="../supported-devices/">Supported Devices</a>)</li>
-<li><strong>Donor PCIe Device</strong>: Any standard PCIe device for configuration extraction</li>
-<li><strong>USB-JTAG Programmer</strong>: For optional FPGA programming (Xilinx Platform Cable or compatible)</li>
+<li><strong>Donor PCIe Device</strong>: Any inexpensive PCIe device (NIC, sound card, capture card) for configuration extraction</li>
+<li><strong>FPGA Development Board</strong>: Optional - Supported Xilinx board for flashing (see <a href="../supported-devices/">Supported Devices</a>)</li>
+<li><strong>USB-JTAG Programmer</strong>: Optional - For FPGA programming (Xilinx Platform Cable or compatible)</li>
 </ul>
 <h2 id="installation-methods">Installation Methods</h2>
 <h3 id="method-1-install-from-pypi-recommended">Method 1: Install from PyPI (Recommended)</h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># Install the latest stable release</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>pip<span class="w"> </span>install<span class="w"> </span>pcileech-fw-generator
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># Install the latest stable release with TUI support</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>pip<span class="w"> </span>install<span class="w"> </span>PCILeechFWGenerator<span class="o">[</span>tui<span class="o">]</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1"># Verify installation</span>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>pcileech-generate<span class="w"> </span>--version
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1"># Or install basic version without TUI</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>pip<span class="w"> </span>install<span class="w"> </span>PCILeechFWGenerator
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="c1"># Verify installation</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>python3<span class="w"> </span>-m<span class="w"> </span>pcileech<span class="w"> </span>--version
 </code></pre></div>
 <h3 id="method-2-install-from-source">Method 2: Install from Source</h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># Clone the repository</span>
@@ -2022,26 +2096,29 @@
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="nb">cd</span><span class="w"> </span>PCILeechFWGenerator
 <a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
 <a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="c1"># Create virtual environment (recommended)</span>
-<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>python3<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>venv
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="nb">source</span><span class="w"> </span>venv/bin/activate<span class="w">  </span><span class="c1"># On Windows: venv\Scripts\activate</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>python3<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>.venv
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="nb">source</span><span class="w"> </span>.venv/bin/activate<span class="w">  </span><span class="c1"># On Windows: .venv\Scripts\activate</span>
 <a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>
 <a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="c1"># Install in development mode</span>
 <a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.
 <a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>
-<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="c1"># Or install normally</span>
-<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>pip<span class="w"> </span>install<span class="w"> </span>.
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="c1"># Or install with TUI support</span>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.<span class="o">[</span>tui<span class="o">]</span>
 </code></pre></div>
-<h3 id="method-3-using-dockerpodman">Method 3: Using Docker/Podman</h3>
+<h3 id="method-3-using-podman-recommended-for-synthesis">Method 3: Using Podman (Recommended for Synthesis)</h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Pull the container image</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>docker<span class="w"> </span>pull<span class="w"> </span>ghcr.io/ramseymcgrath/pcileechfwgenerator:latest
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>podman<span class="w"> </span>pull<span class="w"> </span>ghcr.io/ramseymcgrath/pcileechfwgenerator:latest
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="c1"># Run with current directory mounted</span>
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>docker<span class="w"> </span>run<span class="w"> </span>-it<span class="w"> </span>--rm<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="c1"># Run with current directory mounted and device access</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>podman<span class="w"> </span>run<span class="w"> </span>-it<span class="w"> </span>--rm<span class="w"> </span><span class="se">\</span>
 <a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">  </span>-v<span class="w"> </span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span>:/workspace<span class="w"> </span><span class="se">\</span>
 <a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">  </span>-v<span class="w"> </span>/dev:/dev<span class="w"> </span><span class="se">\</span>
 <a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">  </span>--privileged<span class="w"> </span><span class="se">\</span>
 <a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">  </span>ghcr.io/ramseymcgrath/pcileechfwgenerator:latest
 </code></pre></div>
+<blockquote>
+<p><strong>Note</strong>: Use Podman instead of Docker for proper PCIe device mounting and VFIO support.</p>
+</blockquote>
 <h2 id="vfio-setup">VFIO Setup</h2>
 <p>The generator requires VFIO drivers to access donor devices. Here's how to set them up:</p>
 <h3 id="1-enable-iommu">1. Enable IOMMU</h3>
@@ -2058,10 +2135,10 @@
 </code></pre></div>
 <h3 id="2-load-vfio-modules">2. Load VFIO Modules</h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># Load required modules</span>
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>sudo<span class="w"> </span>modprobe<span class="w"> </span>vfio-pci
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>sudo<span class="w"> </span>modprobe<span class="w"> </span>vfio-iommu-type1
-<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>
-<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="c1"># Make persistent (add to /etc/modules)</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>sudo<span class="w"> </span>modprobe<span class="w"> </span>vfio<span class="w"> </span>vfio-pci<span class="w"> </span>vfio-iommu-type1
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="c1"># Make persistent (add to /etc/modules)</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;vfio&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>-a<span class="w"> </span>/etc/modules
 <a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;vfio-pci&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>-a<span class="w"> </span>/etc/modules
 <a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;vfio-iommu-type1&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>-a<span class="w"> </span>/etc/modules
 </code></pre></div>
@@ -2079,6 +2156,9 @@
 <a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;0000:01:00.0&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>/sys/bus/pci/devices/0000:01:00.0/driver/unbind
 <a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;0000:01:00.0&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>/sys/bus/pci/drivers/vfio-pci/bind
 </code></pre></div>
+<blockquote>
+<p><strong>Tip</strong>: The PCILeech tool can help automate VFIO setup. Use <code>python3 pcileech.py check --device 0000:01:00.0</code> for guided setup.</p>
+</blockquote>
 <h2 id="xilinx-vivado-setup-optional">Xilinx Vivado Setup (Optional)</h2>
 <p>For FPGA synthesis and programming, install Xilinx Vivado:</p>
 <h3 id="1-download-vivado">1. Download Vivado</h3>
@@ -2126,16 +2206,19 @@
 <h2 id="verification">Verification</h2>
 <p>Verify your installation:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="c1"># Check basic installation</span>
-<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>pcileech-generate<span class="w"> </span>--help
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>python3<span class="w"> </span>pcileech.py<span class="w"> </span>--help
 <a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>
 <a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="c1"># Check VFIO access (requires bound device)</span>
-<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>pcileech-generate<span class="w"> </span>--list-devices
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>sudo<span class="w"> </span>python3<span class="w"> </span>pcileech.py<span class="w"> </span>check<span class="w"> </span>--device<span class="w"> </span><span class="m">0000</span>:01:00.0
 <a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>
-<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="c1"># Check Vivado integration (if installed)</span>
-<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a>pcileech-generate<span class="w"> </span>--check-tools
+<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="c1"># Launch interactive TUI</span>
+<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a>sudo<span class="w"> </span>python3<span class="w"> </span>pcileech.py<span class="w"> </span>tui
 <a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a>
-<a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a><span class="c1"># Run self-test</span>
-<a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a>pcileech-generate<span class="w"> </span>--self-test
+<a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a><span class="c1"># Check Vivado integration (if installed)</span>
+<a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a>python3<span class="w"> </span>pcileech.py<span class="w"> </span>build<span class="w"> </span>--help
+<a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a>
+<a id="__codelineno-13-13" name="__codelineno-13-13" href="#__codelineno-13-13"></a><span class="c1"># Run version check</span>
+<a id="__codelineno-13-14" name="__codelineno-13-14" href="#__codelineno-13-14"></a>python3<span class="w"> </span>pcileech.py<span class="w"> </span>version
 </code></pre></div>
 <h2 id="troubleshooting">Troubleshooting</h2>
 <h3 id="common-issues">Common Issues</h3>
@@ -2175,16 +2258,35 @@
 <li>Check the <a href="../troubleshooting/">Troubleshooting Guide</a></li>
 <li>Review the <a href="https://github.com/ramseymcgrath/PCILeechFWGenerator/wiki/FAQ">FAQ</a></li>
 <li>Search existing <a href="https://github.com/ramseymcgrath/PCILeechFWGenerator/issues">GitHub Issues</a></li>
-<li>Join our <a href="https://discord.gg/your-server">Discord Community</a></li>
+<li>Use the built-in diagnostic tool: <code>sudo python3 pcileech.py check --device &lt;BDF&gt; --interactive</code></li>
 <li>Create a new issue with detailed logs and system information</li>
 </ol>
+<h3 id="additional-diagnostic-commands">Additional Diagnostic Commands</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="c1"># Quick diagnostic for VFIO setup</span>
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>sudo<span class="w"> </span>python3<span class="w"> </span>pcileech.py<span class="w"> </span>check<span class="w"> </span>--device<span class="w"> </span><span class="m">0000</span>:03:00.0<span class="w"> </span>--interactive
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>
+<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="c1"># Check automatic update system</span>
+<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>python3<span class="w"> </span>pcileech.py<span class="w"> </span>version
+<a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a>
+<a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a><span class="c1"># Generate donor template for troubleshooting</span>
+<a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a>sudo<span class="w"> </span>python3<span class="w"> </span>pcileech.py<span class="w"> </span>donor-template<span class="w"> </span>--save-to<span class="w"> </span>debug_info.json
+</code></pre></div>
 <h2 id="next-steps">Next Steps</h2>
 <p>Once installation is complete:</p>
 <ol>
 <li><strong><a href="../quick-start/">Quick Start Guide</a></strong>: Generate your first firmware</li>
+<li><strong><a href="../tui-readme/">TUI Documentation</a></strong>: Learn the interactive interface</li>
 <li><strong><a href="../device-cloning/">Device Cloning</a></strong>: Learn about device extraction</li>
+<li><strong><a href="../troubleshooting/">Troubleshooting Guide</a></strong>: Common issues and solutions</li>
 <li><strong><a href="../development/">Development Guide</a></strong>: Contributing to the project</li>
 </ol>
+<h3 id="environment-variables">Environment Variables</h3>
+<p>You can customize behavior with these environment variables:</p>
+<ul>
+<li><code>PCILEECH_AUTO_INSTALL=1</code> - Automatically install missing dependencies</li>
+<li><code>PCILEECH_DISABLE_UPDATE_CHECK=1</code> - Disable automatic version checking</li>
+<li><code>PCILEECH_CACHE_DIR</code> - Custom cache directory for repositories</li>
+</ul>
 <hr />
 <p><strong>Ready to generate firmware?</strong> Continue to the <a href="../quick-start/">Quick Start Guide</a>!</p>
 
@@ -2229,11 +2331,12 @@
   <span class="md-source-file__fact">
     <span class="md-icon" title="Contributors">
       
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 4a4 4 0 0 1 4 4 4 4 0 0 1-4 4 4 4 0 0 1-4-4 4 4 0 0 1 4-4m0 10c4.42 0 8 1.79 8 4v2H4v-2c0-2.21 3.58-4 8-4"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 5.5A3.5 3.5 0 0 1 15.5 9a3.5 3.5 0 0 1-3.5 3.5A3.5 3.5 0 0 1 8.5 9 3.5 3.5 0 0 1 12 5.5M5 8c.56 0 1.08.15 1.53.42-.15 1.43.27 2.85 1.13 3.96C7.16 13.34 6.16 14 5 14a3 3 0 0 1-3-3 3 3 0 0 1 3-3m14 0a3 3 0 0 1 3 3 3 3 0 0 1-3 3c-1.16 0-2.16-.66-2.66-1.62a5.54 5.54 0 0 0 1.13-3.96c.45-.27.97-.42 1.53-.42M5.5 18.25c0-2.07 2.91-3.75 6.5-3.75s6.5 1.68 6.5 3.75V20h-13zM0 20v-1.5c0-1.39 1.89-2.56 4.45-2.9-.59.68-.95 1.62-.95 2.65V20zm24 0h-3.5v-1.75c0-1.03-.36-1.97-.95-2.65 2.56.34 4.45 1.51 4.45 2.9z"/></svg>
       
     </span>
     <nav>
       
+        <a href="mailto:not.committed.yet">Not Committed Yet</a>, 
         <a href="mailto:ramseymcgrath@gmail.com">Ramsey McGrath</a>
     </nav>
   </span>
@@ -2322,6 +2425,8 @@
     
     
       <script src="../assets/javascripts/bundle.50899def.min.js"></script>
+      
+        <script src="../js/datadog-rum.js"></script>
       
     
   </body>

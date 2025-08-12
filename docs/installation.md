@@ -5,26 +5,29 @@ This guide will walk you through installing the PCILeech Firmware Generator on y
 ## System Requirements
 
 ### Operating System
-- **Linux**: Ubuntu 20.04+ (recommended), Debian 11+, RHEL 8+, or similar
-- **Python**: 3.8 or higher
+- **Linux**: Ubuntu 20.04+ (recommended), Debian 11+, RHEL 8+, or similar (Required)
+- **Python**: 3.9 or higher (3.8+ supported)
 - **Memory**: 4GB RAM minimum, 8GB recommended for complex devices
 - **Storage**: 2GB free space for FPGA tools and generated firmware
 
 ### Hardware Requirements
-- **FPGA Development Board**: Supported Xilinx board (see [Supported Devices](supported-devices.md))
-- **Donor PCIe Device**: Any standard PCIe device for configuration extraction
-- **USB-JTAG Programmer**: For optional FPGA programming (Xilinx Platform Cable or compatible)
+- **Donor PCIe Device**: Any inexpensive PCIe device (NIC, sound card, capture card) for configuration extraction
+- **FPGA Development Board**: Optional - Supported Xilinx board for flashing (see [Supported Devices](supported-devices.md))
+- **USB-JTAG Programmer**: Optional - For FPGA programming (Xilinx Platform Cable or compatible)
 
 ## Installation Methods
 
 ### Method 1: Install from PyPI (Recommended)
 
 ```bash
-# Install the latest stable release
-pip install pcileech-fw-generator
+# Install the latest stable release with TUI support
+pip install PCILeechFWGenerator[tui]
+
+# Or install basic version without TUI
+pip install PCILeechFWGenerator
 
 # Verify installation
-pcileech-generate --version
+python3 -m pcileech --version
 ```
 
 ### Method 2: Install from Source
@@ -35,29 +38,31 @@ git clone https://github.com/ramseymcgrath/PCILeechFWGenerator.git
 cd PCILeechFWGenerator
 
 # Create virtual environment (recommended)
-python3 -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+python3 -m venv .venv
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
 
 # Install in development mode
 pip install -e .
 
-# Or install normally
-pip install .
+# Or install with TUI support
+pip install -e .[tui]
 ```
 
-### Method 3: Using Docker/Podman
+### Method 3: Using Podman (Recommended for Synthesis)
 
 ```bash
 # Pull the container image
-docker pull ghcr.io/ramseymcgrath/pcileechfwgenerator:latest
+podman pull ghcr.io/ramseymcgrath/pcileechfwgenerator:latest
 
-# Run with current directory mounted
-docker run -it --rm \
+# Run with current directory mounted and device access
+podman run -it --rm \
   -v $(pwd):/workspace \
   -v /dev:/dev \
   --privileged \
   ghcr.io/ramseymcgrath/pcileechfwgenerator:latest
 ```
+
+> **Note**: Use Podman instead of Docker for proper PCIe device mounting and VFIO support.
 
 ## VFIO Setup
 
@@ -86,10 +91,10 @@ sudo reboot
 
 ```bash
 # Load required modules
-sudo modprobe vfio-pci
-sudo modprobe vfio-iommu-type1
+sudo modprobe vfio vfio-pci vfio-iommu-type1
 
 # Make persistent (add to /etc/modules)
+echo "vfio" | sudo tee -a /etc/modules
 echo "vfio-pci" | sudo tee -a /etc/modules
 echo "vfio-iommu-type1" | sudo tee -a /etc/modules
 ```
@@ -114,6 +119,8 @@ echo "8086 10fb" | sudo tee /sys/bus/pci/drivers/vfio-pci/new_id
 echo "0000:01:00.0" | sudo tee /sys/bus/pci/devices/0000:01:00.0/driver/unbind
 echo "0000:01:00.0" | sudo tee /sys/bus/pci/drivers/vfio-pci/bind
 ```
+
+> **Tip**: The PCILeech tool can help automate VFIO setup. Use `python3 pcileech.py check --device 0000:01:00.0` for guided setup.
 
 ## Xilinx Vivado Setup (Optional)
 
@@ -186,16 +193,19 @@ Verify your installation:
 
 ```bash
 # Check basic installation
-pcileech-generate --help
+python3 pcileech.py --help
 
 # Check VFIO access (requires bound device)
-pcileech-generate --list-devices
+sudo python3 pcileech.py check --device 0000:01:00.0
+
+# Launch interactive TUI
+sudo python3 pcileech.py tui
 
 # Check Vivado integration (if installed)
-pcileech-generate --check-tools
+python3 pcileech.py build --help
 
-# Run self-test
-pcileech-generate --self-test
+# Run version check
+python3 pcileech.py version
 ```
 
 ## Troubleshooting
@@ -203,6 +213,7 @@ pcileech-generate --self-test
 ### Common Issues
 
 #### Permission Denied
+
 ```bash
 # Add user to vfio group
 sudo usermod -a -G vfio $USER
@@ -214,6 +225,7 @@ sudo usermod -a -G plugdev $USER
 ```
 
 #### IOMMU Not Available
+
 ```bash
 # Check IOMMU status
 dmesg | grep -i iommu
@@ -223,6 +235,7 @@ cat /proc/cmdline
 ```
 
 #### Device Not Found
+
 ```bash
 # Check device binding
 ls -la /sys/bus/pci/drivers/vfio-pci/
@@ -232,6 +245,7 @@ find /sys/kernel/iommu_groups/ -type l
 ```
 
 #### Vivado Not Found
+
 ```bash
 # Check Vivado installation
 which vivado
@@ -247,16 +261,39 @@ If you encounter issues:
 1. Check the [Troubleshooting Guide](troubleshooting.md)
 2. Review the [FAQ](https://github.com/ramseymcgrath/PCILeechFWGenerator/wiki/FAQ)
 3. Search existing [GitHub Issues](https://github.com/ramseymcgrath/PCILeechFWGenerator/issues)
-4. Join our [Discord Community](https://discord.gg/your-server)
+4. Use the built-in diagnostic tool: `sudo python3 pcileech.py check --device <BDF> --interactive`
 5. Create a new issue with detailed logs and system information
+
+### Additional Diagnostic Commands
+
+```bash
+# Quick diagnostic for VFIO setup
+sudo python3 pcileech.py check --device 0000:03:00.0 --interactive
+
+# Check automatic update system
+python3 pcileech.py version
+
+# Generate donor template for troubleshooting
+sudo python3 pcileech.py donor-template --save-to debug_info.json
+```
 
 ## Next Steps
 
 Once installation is complete:
 
 1. **[Quick Start Guide](quick-start.md)**: Generate your first firmware
-2. **[Device Cloning](device-cloning.md)**: Learn about device extraction
-3. **[Development Guide](development.md)**: Contributing to the project
+2. **[TUI Documentation](tui-readme.md)**: Learn the interactive interface
+3. **[Device Cloning](device-cloning.md)**: Learn about device extraction
+4. **[Troubleshooting Guide](troubleshooting.md)**: Common issues and solutions
+5. **[Development Guide](development.md)**: Contributing to the project
+
+### Environment Variables
+
+You can customize behavior with these environment variables:
+
+- `PCILEECH_AUTO_INSTALL=1` - Automatically install missing dependencies
+- `PCILEECH_DISABLE_UPDATE_CHECK=1` - Disable automatic version checking
+- `PCILEECH_CACHE_DIR` - Custom cache directory for repositories
 
 ---
 

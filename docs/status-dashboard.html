@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PCILeech FW Generator - CI Status</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            font-weight: 700;
+        }
+        
+        .header p {
+            margin: 10px 0 0;
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+        
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 30px;
+        }
+        
+        .status-card {
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 20px;
+            background: #f9fafb;
+        }
+        
+        .status-card h3 {
+            margin: 0 0 15px;
+            color: #1f2937;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        
+        .status-passing {
+            background: #dcfce7;
+            color: #16a34a;
+        }
+        
+        .status-failing {
+            background: #fecaca;
+            color: #dc2626;
+        }
+        
+        .status-warning {
+            background: #fef3c7;
+            color: #d97706;
+        }
+        
+        .metric-row {
+            display: flex;
+            justify-content: space-between;
+            margin: 10px 0;
+            padding: 8px 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .metric-row:last-child {
+            border-bottom: none;
+        }
+        
+        .metric-label {
+            color: #6b7280;
+        }
+        
+        .metric-value {
+            font-weight: 600;
+            color: #1f2937;
+        }
+        
+        .badges-section {
+            padding: 20px 30px;
+            background: #f8fafc;
+            border-top: 1px solid #e5e7eb;
+        }
+        
+        .badges-section h3 {
+            margin: 0 0 15px;
+            color: #1f2937;
+        }
+        
+        .badge-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+        
+        .refresh-info {
+            text-align: center;
+            padding: 20px;
+            color: #6b7280;
+            border-top: 1px solid #e5e7eb;
+        }
+        
+        .icon {
+            font-size: 1.2em;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .loading {
+            animation: pulse 2s infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔧 PCILeech FW Generator</h1>
+            <p>Continuous Integration & Deployment Status</p>
+        </div>
+        
+        <div class="status-grid">
+            <div class="status-card">
+                <h3>
+                    <span class="icon">🔄</span>
+                    Main CI Pipeline
+                    <span class="status-badge status-passing" id="ci-status">Loading...</span>
+                </h3>
+                <div class="metric-row">
+                    <span class="metric-label">Last Run:</span>
+                    <span class="metric-value" id="ci-last-run">Loading...</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">Duration:</span>
+                    <span class="metric-value" id="ci-duration">Loading...</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">Coverage:</span>
+                    <span class="metric-value" id="ci-coverage">Loading...</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">Test Results:</span>
+                    <span class="metric-value" id="ci-tests">Loading...</span>
+                </div>
+            </div>
+            
+            <div class="status-card">
+                <h3>
+                    <span class="icon">🛡️</span>
+                    Security & Safety
+                    <span class="status-badge status-passing" id="security-status">Loading...</span>
+                </h3>
+                <div class="metric-row">
+                    <span class="metric-label">Dictionary Safety:</span>
+                    <span class="metric-value" id="dict-safety">Loading...</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">Code Resilience:</span>
+                    <span class="metric-value" id="code-resilience">Loading...</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">Anti-Pattern Check:</span>
+                    <span class="metric-value" id="pattern-check">Loading...</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">Last Scan:</span>
+                    <span class="metric-value" id="security-last-run">Loading...</span>
+                </div>
+            </div>
+            
+            <div class="status-card">
+                <h3>
+                    <span class="icon">📝</span>
+                    Template Validation
+                    <span class="status-badge status-warning" id="template-status">Loading...</span>
+                </h3>
+                <div class="metric-row">
+                    <span class="metric-label">Variable Validation:</span>
+                    <span class="metric-value" id="var-validation">Loading...</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">Syntax Validation:</span>
+                    <span class="metric-value" id="syntax-validation">Loading...</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">Templates Checked:</span>
+                    <span class="metric-value" id="template-count">Loading...</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">Critical Errors:</span>
+                    <span class="metric-value" id="critical-errors">Loading...</span>
+                </div>
+            </div>
+            
+            <div class="status-card">
+                <h3>
+                    <span class="icon">📚</span>
+                    Documentation
+                    <span class="status-badge status-passing" id="docs-status">Loading...</span>
+                </h3>
+                <div class="metric-row">
+                    <span class="metric-label">Build Status:</span>
+                    <span class="metric-value" id="docs-build">Loading...</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">API Coverage:</span>
+                    <span class="metric-value" id="api-coverage">Loading...</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">Last Updated:</span>
+                    <span class="metric-value" id="docs-updated">Loading...</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">Site Status:</span>
+                    <span class="metric-value" id="site-status">Loading...</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="badges-section">
+            <h3>🏷️ Live Status Badges</h3>
+            <div class="badge-grid">
+                <div>
+                    <strong>Main CI:</strong><br>
+                    <img src="https://github.com/ramseymcgrath/PCILeechFWGenerator/actions/workflows/ci.yml/badge.svg" alt="CI Status">
+                </div>
+                <div>
+                    <strong>Security Checks:</strong><br>
+                    <img src="https://github.com/ramseymcgrath/PCILeechFWGenerator/actions/workflows/safety-checks.yml/badge.svg" alt="Security Status">
+                </div>
+                <div>
+                    <strong>Code Coverage:</strong><br>
+                    <img src="https://codecov.io/gh/ramseymcgrath/PCILeechFWGenerator/graph/badge.svg" alt="Coverage">
+                </div>
+                <div>
+                    <strong>Python Support:</strong><br>
+                    <img src="https://img.shields.io/pypi/pyversions/pcileech-fw-generator" alt="Python Versions">
+                </div>
+            </div>
+        </div>
+        
+        <div class="refresh-info">
+            <p>
+                📡 Status updates every 30 seconds | 
+                🔗 <a href="https://github.com/ramseymcgrath/PCILeechFWGenerator/actions" target="_blank">View GitHub Actions</a> | 
+                📊 <a href="https://pcileechfwgenerator.ramseymcgrath.com/ci-status/" target="_blank">Detailed CI Status</a>
+            </p>
+            <p><small>Last updated: <span id="last-updated">Loading...</span></small></p>
+        </div>
+    </div>
+
+    <script>
+        // Mock data for demonstration - replace with real GitHub API calls
+        function updateStatus() {
+            const now = new Date();
+            
+            // Update timestamps
+            document.getElementById('last-updated').textContent = now.toLocaleString();
+            document.getElementById('ci-last-run').textContent = '2 hours ago';
+            document.getElementById('security-last-run').textContent = '4 hours ago';
+            document.getElementById('docs-updated').textContent = '1 day ago';
+            
+            // Update CI metrics
+            document.getElementById('ci-status').textContent = 'Passing';
+            document.getElementById('ci-duration').textContent = '12m 34s';
+            document.getElementById('ci-coverage').textContent = '87.3%';
+            document.getElementById('ci-tests').textContent = '142 passed';
+            
+            // Update security metrics
+            document.getElementById('security-status').textContent = 'Secure';
+            document.getElementById('dict-safety').textContent = '✅ Pass';
+            document.getElementById('code-resilience').textContent = '✅ Pass';
+            document.getElementById('pattern-check').textContent = '✅ Clean';
+            
+            // Update template metrics
+            document.getElementById('template-status').textContent = 'Warnings';
+            document.getElementById('var-validation').textContent = '⚠️ 3 warnings';
+            document.getElementById('syntax-validation').textContent = '✅ Pass';
+            document.getElementById('template-count').textContent = '27 templates';
+            document.getElementById('critical-errors').textContent = '0 errors';
+            
+            // Update docs metrics
+            document.getElementById('docs-status').textContent = 'Live';
+            document.getElementById('docs-build').textContent = '✅ Success';
+            document.getElementById('api-coverage').textContent = '94.2%';
+            document.getElementById('site-status').textContent = '🟢 Online';
+        }
+        
+        // Real GitHub API integration would go here
+        async function fetchGitHubStatus() {
+            try {
+                // const response = await fetch('https://api.github.com/repos/ramseymcgrath/PCILeechFWGenerator/actions/runs?per_page=1');
+                // const data = await response.json();
+                // Process real data here
+                updateStatus();
+            } catch (error) {
+                console.log('Using mock data for demo');
+                updateStatus();
+            }
+        }
+        
+        // Initialize and set up refresh
+        fetchGitHubStatus();
+        setInterval(fetchGitHubStatus, 30000); // Refresh every 30 seconds
+        
+        // Remove loading animation after initial load
+        setTimeout(() => {
+            document.querySelectorAll('.loading').forEach(el => {
+                el.classList.remove('loading');
+            });
+        }, 1000);
+    </script>
+</body>
+</html>

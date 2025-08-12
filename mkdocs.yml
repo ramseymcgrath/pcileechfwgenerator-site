@@ -7,6 +7,7 @@ edit_uri: edit/main/site/docs/
 
 theme:
   name: material
+  # custom_dir: partials
   palette:
     # Palette toggle for light mode
     - scheme: default
@@ -110,6 +111,7 @@ nav:
     - Utils: api/utils.md
   - Development:
     - Development Guide: development.md
+    - CI/CD Status: ci-status.md
     - Contributing: ../CONTRIBUTING.rst
     - Code of Conduct: ../CODE_OF_CONDUCT.md
 
@@ -119,5 +121,8 @@ extra:
       link: https://github.com/ramseymcgrath/PCILeechFWGenerator
     - icon: fontawesome/brands/discord
       link: https://discord.com/users/429866199833247744
+
+extra_javascript:
+  - js/datadog-rum.js
 
 copyright: Copyright &copy; 2025 Ramsey McGrath
