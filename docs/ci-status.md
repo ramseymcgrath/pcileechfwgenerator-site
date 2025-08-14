@@ -64,7 +64,6 @@ This page provides real-time status of all continuous integration and deployment
 
 ### Latest CI Runs
 
-<!-- This would be dynamically populated in a real dashboard -->
 View the [latest CI runs](https://github.com/ramseymcgrath/PCILeechFWGenerator/actions/workflows/ci.yml) for detailed logs and artifacts.
 
 ### Latest Security Checks

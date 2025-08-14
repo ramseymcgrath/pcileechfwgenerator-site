@@ -1,118 +1,63 @@
 
 ## Overview
 
-This document explains why the PCILeech firmware generator doesn't allow fallback values for critical device identification parameters like vendor ID and device ID. This prevents creating generic firmware that could be easily detected or compromise security.
+This document explains the project's policy on fallbacks for critical device-identification parameters (vendor ID, device ID, class code, revision ID) and how the current fallback subsystem enforces that policy.
+
+Short version: the generator will refuse to accept or persist fallbacks for hardware-only identification values. Non-critical, non-unique settings may have safe fallbacks defined in `configs/fallbacks.yaml` or supplied by the user.
 
 ## Rationale
 
-### Why Generic Firmware is Problematic
+### Why generic firmware is problematic
 
-Using fallback values for device identification parameters (vendor ID, device ID, class code, revision ID) causes several problems:
+Using fallback values for device-identification parameters produces firmware that is not device-unique. This creates three practical problems:
 
-1. **Non-Unique Firmware**: Multiple devices get identical firmware, which defeats the purpose of device-specific cloning
-2. **Easy Detection**: Generic firmware is easily spotted and can be detected by security systems
-3. **Unrealistic Testing**: Generic firmware doesn't match real-world conditions, making research less valuable
+- Non-unique firmware undermines cloning accuracy and research reproducibility.
+- Generic firmware is easier to detect and flags as suspicious.
+- It encourages unrealistic testing and obscures hardware-specific bugs.
 
-### Required Configuration Approach
+### Required configuration approach
 
-The system requires explicit device identification values rather than using fallback defaults:
+The code enforces that hardware-identifying fields come from the device or an explicit user-provided context file. The enforcement is implemented in the fallback subsystem (`src/device_clone/fallback_manager.py`) and surfaced through the CLI helper (`src/cli/fallback_interface.py`).
 
-```python
-if not device_config.get("vendor_id"):
-    raise ConfigurationError("Vendor ID must be provided - no fallback allowed")
-vendor_id = device_config["vendor_id"]
-```
+When template validation fails because critical fields are missing, the CLI will export a sanitized YAML that the user can edit (default: `output/missing_context.yaml`). The export contains:
 
-This ensures that every generated firmware is specific to the actual target device being cloned.
+- `template_context`: the sanitized context with all sensitive fields removed
+- `missing_critical_variables`: non-sensitive critical fields with empty `value` and a short `description` for the user to fill
+- `sensitive_missing`: names of missing sensitive fields (no values provided)
+- `fallbacks_template`: a safe-to-publish template of non-sensitive fallbacks the user may copy into `configs/fallbacks.yaml`
 
-## How It Works
+This flow ensures device IDs and other hardware-only secrets are never written to a shared fallback file by the generator.
 
-### 1. Build Configuration (`src/build.py`)
+### How it works (current system)
 
-The `extract_device_config` method now:
+1) Fallback policy and code
 
-- Checks that all required device identification fields are present
-- Looks for zero values (which means invalid configuration)
-- Rejects known generic vendor/device ID combinations
-- Shows clear error messages when something's wrong
+ - Critical fields are declared in `configs/fallbacks.yaml` under `critical_variables` and enforced by `src/device_clone/fallback_manager.py`.
+ - The manager supports static fallbacks (from the config file) and dynamic handlers but will not export or persist values for variables considered "sensitive" (device/vendor IDs, BARs, etc.).
 
-### 2. Template Files
+2) CLI workflow
 
-All Jinja2 templates now:
+ - `src/cli/fallback_interface.py` wraps the manager for simple user workflows. The `--validate` flow applies fallbacks, runs critical-variable validation, and if validation fails, writes `output/missing_context.yaml` (sanitized) and logs/prints the location.
+ - The exported file includes a `fallbacks_template` key users can copy into `configs/fallbacks.yaml` to persist safe defaults.
 
-- Use `{%- error %}` blocks instead of `| default()` filters for critical IDs
-- Check required parameters before processing
-- Stop compilation if mandatory fields are missing
+3) Templates and validation
 
-**Template validation example**:
+ - Templates should not directly read hardware-only values. Use the generator's validation (`--validate-templates`) to scan for critical variable usage in Jinja templates. This check is implemented in the fallback manager and can be run from the CLI.
 
-```jinja
-{%- if not config_space.device_id %}
-{%- error "Device ID is required - no fallback values allowed" %}
-{%- endif %}
-{{ config_space.device_id }}
-```
+## Relevant files
 
-### 3. Configuration Classes
+- `src/device_clone/fallback_manager.py` — core fallback logic, critical variable definitions, scanning and export helpers
+- `configs/fallbacks.yaml` — project-configured safe fallbacks and `critical_variables` list
+- `src/cli/fallback_interface.py` — CLI helper which exports `output/missing_context.yaml` on validation failure and provides `fallbacks_template`
+- `tests/test_device_config_fallback.py` — unit tests covering fallback loading and application
 
-Old configuration classes now:
+## Error messages and user flow
 
-- Use `Optional[str] = None` instead of placeholder defaults
-- Include `__post_init__` validation methods
-- Raise `ValueError` if critical fields are not provided
-
-## Files Modified
-
-### Core Build System
-
-- `src/build.py`: Enhanced device config extraction with validation
-- `src/templating/advanced_sv_generator.py`: Removed generic defaults from DeviceConfig
-
-### Template Files
-
-- `src/templates/sv/pcileech_cfgspace.coe.j2`: Added error blocks for missing IDs
-- `src/templates/tcl/pcileech_generate_project.j2`: Removed fallback values from TCL generation
-
-## Error Messages
-
-When the system detects missing configuration, users see clear error messages:
-
-```text
-ConfigurationError: Device configuration is missing from template context. 
-This would create generic firmware that isn't device-specific. 
-Make sure device detection and configuration space analysis are working properly.
-```
-
-```text
-ConfigurationError: Vendor ID is zero (0x0000), which means the 
-device configuration is invalid. This would create generic firmware.
-```
+When validation fails the CLI prints/logs a short message and writes `output/missing_context.yaml` containing the fields the user should supply. Sensitive fields are never exported. The `missing_critical_variables` entries include a human-friendly `description` to guide what to enter.
 
 ## Testing
 
-### Working Configuration Test
-
-```python
-def test_valid_device_config():
-    config = {
-        "vendor_id": 0x8086,  # Intel
-        "device_id": 0x1234,  # Specific device
-        "revision_id": 0x01,
-        "class_code": 0x020000
-    }
-    # Should work
-    result = extract_device_config({"device_config": config}, False)
-```
-
-### Broken Configuration Test
-
-```python
-def test_invalid_device_config():
-    config = {}  # Missing required fields
-    # Should throw an error
-    with pytest.raises(ConfigurationError):
-        extract_device_config({"device_config": config}, False)
-```
+There are unit tests under `tests/` that exercise fallback loading, sanitization, and template validation. The `test_device_config_fallback.py` file demonstrates expected behavior for loading fallbacks from disk and enforcing critical-variable rules.
 
 ## Why This Helps
 
@@ -130,15 +75,13 @@ If you're updating existing code:
 3. **Update Templates**: Use `{%- error %}` blocks instead of `| default()` filters
 4. **Test Configuration**: Make sure all device identification fields are properly filled in
 
-## When Fallbacks Are OK
+## When fallbacks are acceptable
 
-The only acceptable fallbacks are for:
+- Subsystem IDs (only where the PCI spec allows fallback to subsystem/vendor values)
+- Non-unique, optional features (timing, non-identity board settings)
+- Build-tool settings (Vivado constraints, project settings) that do not affect device identity
 
-- **Subsystem IDs**: Can fall back to main vendor/device IDs per PCIe spec
-- **Optional Features**: Non-critical device features that don't affect uniqueness
-- **Vivado Settings**: Tool-specific parameters that don't impact device identity
-
-These exceptions are clearly documented and use different validation logic.
+If in doubt, prefer leaving a field unset and use the export flow (`--validate`) to generate `output/missing_context.yaml` and fill only the non-sensitive items.
 
 ---
 

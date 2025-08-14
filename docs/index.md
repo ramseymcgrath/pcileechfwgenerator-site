@@ -227,6 +227,8 @@ sudo python3 pcileech.py check --device 0000:03:00.0 --interactive
 - **[Development Setup](https://pcileechfwgenerator.ramseymcgrath.com/development)** - Contributing and development guide
 - **[TUI Documentation](https://pcileechfwgenerator.ramseymcgrath.com/tui-readme)** - Interactive interface guide
 - **[Config space info](https://pcileechfwgenerator.ramseymcgrath.com/config-space-shadow)** - Config space shadow info
+- **[Fallbacks & safe defaults](fallbacks.md)** - Guidance for first-time users about what may be safely defaulted and what must come from donor hardware
+ - **[Finding missing values (Linux)](finding-missing-values.md)** - Quick Linux commands to find vendor/device IDs, BARs, revision/class codes and MSI/MSI-X support
 
 ## 🧹 Cleanup & Safety
 

@@ -70,7 +70,7 @@ For each BAR index (0-5):
 - **Size Validation**: Ensures BAR sizes are power-of-2 aligned
 - **Conflict Resolution**: Handles overlapping or invalid BAR configurations
 
-**Fallback Mechanisms**:
+**Fallback Mechanisms** (see [fallbacks & safe defaults](fallbacks.md)):
 
 - **Heuristic Sizing**: When VFIO fails, estimates BAR sizes from register patterns
 - **Conservative Defaults**: Uses safe minimum sizes for critical BARs
