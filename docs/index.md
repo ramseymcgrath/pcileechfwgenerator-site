@@ -5,7 +5,7 @@
 [![CI](https://github.com/ramseymcgrath/PCILeechFWGenerator/workflows/CI/badge.svg?branch=main)](https://github.com/ramseymcgrath/PCILeechFWGenerator/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/ramseymcgrath/PCILeechFWGenerator/graph/badge.svg?token=JVX3C1WL86)](https://codecov.io/gh/ramseymcgrath/PCILeechFWGenerator)
 [![Python Version](https://img.shields.io/badge/python-3.9%2B-blue)](https://github.com/ramseymcgrath/PCILeechFWGenerator)
-[![License](https://img.shields.io/badge/license-MIT-green)](LICENSE.txt)
+[![License](https://img.shields.io/badge/license-MIT-green)](license.md)
 [![Latest Release](https://img.shields.io/github/v/release/ramseymcgrath/PCILeechFWGenerator?include_prereleases)](https://github.com/ramseymcgrath/PCILeechFWGenerator/releases)
 [![Downloads](https://img.shields.io/github/downloads/ramseymcgrath/PCILeechFWGenerator/total)](https://github.com/ramseymcgrath/PCILeechFWGenerator/releases)
 
@@ -306,7 +306,7 @@ graph TD
 
 ## License & Copyright
 
-This project is licensed under the **MIT License** - see [LICENSE.txt](https://github.com/ramseymcgrath/PCILeechFWGenerator/blob/main/LICENSE.txt) for complete details.
+This project is licensed under the **MIT License** - see [license.md](license.md) for complete details.
 
 ### Legal Notice
 

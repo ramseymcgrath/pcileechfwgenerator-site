@@ -398,4 +398,4 @@ class ManufacturingVarianceSimulator:
 
 ---
 
-For more detailed information about specific capabilities, see the individual documentation pages for [Configuration Space Shadow](config-space-shadow), [MSI-X Implementation](msix-implementation), and [Device Cloning Process](device-cloning).
+For more detailed information about specific capabilities, see the individual documentation pages for [Configuration Space Shadow](config-space-shadow.md), [MSI-X Implementation](dynamic-device-capabilities.md), and [Device Cloning Process](device-cloning.md).

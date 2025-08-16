@@ -193,4 +193,4 @@ When reporting device compatibility issues:
 
 ---
 
-For more information about device selection and configuration, see the [Device Cloning Guide](device-cloning) and [Development Setup](development) documentation.
+For more information about device selection and configuration, see the [Device Cloning Guide](device-cloning.md) and [Development Setup](development.md) documentation.

@@ -38,7 +38,7 @@ TUI Tests are next to the code in the tui dir, app tests are in the tests/ dir.
 
 ## 🤝 Contributing
 
-We welcome contributions! Please see [`CONTRIBUTING.md`](../CONTRIBUTING.md) for detailed guidelines.
+We welcome contributions! Please see [contributing.md](contributing.md) for detailed guidelines.
 
 **Quick Start:**
 1. Fork the repository

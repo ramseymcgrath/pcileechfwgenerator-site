@@ -85,4 +85,4 @@ If in doubt, prefer leaving a field unset and use the export flow (`--validate`)
 
 ---
 
-**See Also**: [Device Cloning Guide](device-cloning), [Firmware Uniqueness](firmware-uniqueness), [Supported Devices](supported-devices)
+**See Also**: [Device Cloning Guide](device-cloning.md), [Firmware Uniqueness](firmware-uniqueness.md), [Supported Devices](supported-devices.md)

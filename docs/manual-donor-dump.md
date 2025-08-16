@@ -845,7 +845,7 @@ The manual process gives you complete control over donor dump generation, making
 - **Custom integration** with existing workflows
 - **Educational purposes** to understand the process
 
-For most users, the automated [`pcileech.py`](../PCILeechFWGenerator/pcileech.py) command or [TUI interface](tui-readme.md) remains the recommended approach, but this manual process provides a powerful alternative when needed.
+For most users, the automated `pcileech.py` command or [TUI interface](tui-readme.md) remains the recommended approach, but this manual process provides a powerful alternative when needed.
 
 ## Quick Reference
 
@@ -861,12 +861,12 @@ sudo rmmod donor_dump
 ```
 
 ### File Locations
-- **Linux module source**: [`src/donor_dump/`](../PCILeechFWGenerator/src/donor_dump/)
-- **Validation tools**: [`scripts/validate_donor_dump.sh`](../PCILeechFWGenerator/scripts/validate_donor_dump.sh)
+- **Linux module source**: `src/donor_dump/` (in main repository)
+- **Validation tools**: `scripts/validate_donor_dump.sh` (in main repository)
 - **Output directory**: `donor_dumps/YYYYMMDD_HHMMSS_BDF/`
 
 ### Support Resources
-- **Main documentation**: [Home](Home.md)
+- **Main documentation**: [Home](index.md)
 - **TUI guide**: [TUI README](tui-readme.md)
-- **Development guide**: [Development](Development.md)
+- **Development guide**: [Development](development.md)
 - **Firmware uniqueness**: [Firmware Uniqueness](firmware-uniqueness.md)

@@ -108,12 +108,13 @@ nav:
     - Templating: api/templating.md
     - Vivado Handling: api/vivado_handling.md
     - TUI: api/tui.md
-    - Utils: api/utils.md
+    - Scripts: api/scripts.md
   - Development:
     - Development Guide: development.md
     - CI/CD Status: ci-status.md
-    - Contributing: ../CONTRIBUTING.rst
-    - Code of Conduct: ../CODE_OF_CONDUCT.md
+    - Contributing: contributing.md
+    - Code of Conduct: code-of-conduct.md
+    - License: license.md
 
 extra:
   social:

@@ -2,158 +2,170 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://pcileechfwgenerator.ramseymcgrath.com/</loc>
-         <lastmod>2025-08-15</lastmod>
+         <lastmod>2025-08-16</lastmod>
     </url>
     <url>
          <loc>https://pcileechfwgenerator.ramseymcgrath.com/ci-status/</loc>
-         <lastmod>2025-08-15</lastmod>
+         <lastmod>2025-08-16</lastmod>
+    </url>
+    <url>
+         <loc>https://pcileechfwgenerator.ramseymcgrath.com/code-of-conduct/</loc>
+         <lastmod>2025-08-16</lastmod>
     </url>
     <url>
          <loc>https://pcileechfwgenerator.ramseymcgrath.com/config-space-shadow/</loc>
-         <lastmod>2025-08-15</lastmod>
+         <lastmod>2025-08-16</lastmod>
+    </url>
+    <url>
+         <loc>https://pcileechfwgenerator.ramseymcgrath.com/contributing/</loc>
+         <lastmod>2025-08-16</lastmod>
     </url>
     <url>
          <loc>https://pcileechfwgenerator.ramseymcgrath.com/development/</loc>
-         <lastmod>2025-08-15</lastmod>
+         <lastmod>2025-08-16</lastmod>
     </url>
     <url>
          <loc>https://pcileechfwgenerator.ramseymcgrath.com/device-cloning/</loc>
-         <lastmod>2025-08-15</lastmod>
+         <lastmod>2025-08-16</lastmod>
     </url>
     <url>
          <loc>https://pcileechfwgenerator.ramseymcgrath.com/dynamic-device-capabilities/</loc>
-         <lastmod>2025-08-15</lastmod>
+         <lastmod>2025-08-16</lastmod>
     </url>
     <url>
          <loc>https://pcileechfwgenerator.ramseymcgrath.com/fallbacks/</loc>
-         <lastmod>2025-08-15</lastmod>
+         <lastmod>2025-08-16</lastmod>
     </url>
     <url>
          <loc>https://pcileechfwgenerator.ramseymcgrath.com/finding-missing-values/</loc>
-         <lastmod>2025-08-15</lastmod>
+         <lastmod>2025-08-16</lastmod>
     </url>
     <url>
          <loc>https://pcileechfwgenerator.ramseymcgrath.com/firmware-uniqueness/</loc>
-         <lastmod>2025-08-15</lastmod>
+         <lastmod>2025-08-16</lastmod>
     </url>
     <url>
          <loc>https://pcileechfwgenerator.ramseymcgrath.com/installation/</loc>
-         <lastmod>2025-08-15</lastmod>
+         <lastmod>2025-08-16</lastmod>
+    </url>
+    <url>
+         <loc>https://pcileechfwgenerator.ramseymcgrath.com/license/</loc>
+         <lastmod>2025-08-16</lastmod>
     </url>
     <url>
          <loc>https://pcileechfwgenerator.ramseymcgrath.com/manual-donor-dump/</loc>
-         <lastmod>2025-08-15</lastmod>
+         <lastmod>2025-08-16</lastmod>
     </url>
     <url>
          <loc>https://pcileechfwgenerator.ramseymcgrath.com/no-fallback-policy/</loc>
-         <lastmod>2025-08-15</lastmod>
+         <lastmod>2025-08-16</lastmod>
     </url>
     <url>
          <loc>https://pcileechfwgenerator.ramseymcgrath.com/quick-start/</loc>
-         <lastmod>2025-08-15</lastmod>
+         <lastmod>2025-08-16</lastmod>
     </url>
     <url>
          <loc>https://pcileechfwgenerator.ramseymcgrath.com/supported-devices/</loc>
-         <lastmod>2025-08-15</lastmod>
+         <lastmod>2025-08-16</lastmod>
     </url>
     <url>
          <loc>https://pcileechfwgenerator.ramseymcgrath.com/template-architecture/</loc>
-         <lastmod>2025-08-15</lastmod>
+         <lastmod>2025-08-16</lastmod>
     </url>
     <url>
          <loc>https://pcileechfwgenerator.ramseymcgrath.com/troubleshooting/</loc>
-         <lastmod>2025-08-15</lastmod>
+         <lastmod>2025-08-16</lastmod>
     </url>
     <url>
          <loc>https://pcileechfwgenerator.ramseymcgrath.com/tui-readme/</loc>
-         <lastmod>2025-08-15</lastmod>
+         <lastmod>2025-08-16</lastmod>
     </url>
     <url>
          <loc>https://pcileechfwgenerator.ramseymcgrath.com/api/</loc>
-         <lastmod>2025-08-15</lastmod>
+         <lastmod>2025-08-16</lastmod>
     </url>
     <url>
          <loc>https://pcileechfwgenerator.ramseymcgrath.com/api/build/</loc>
-         <lastmod>2025-08-15</lastmod>
+         <lastmod>2025-08-16</lastmod>
     </url>
     <url>
          <loc>https://pcileechfwgenerator.ramseymcgrath.com/api/build_cli/</loc>
-         <lastmod>2025-08-15</lastmod>
+         <lastmod>2025-08-16</lastmod>
     </url>
     <url>
          <loc>https://pcileechfwgenerator.ramseymcgrath.com/api/build_helpers/</loc>
-         <lastmod>2025-08-15</lastmod>
+         <lastmod>2025-08-16</lastmod>
     </url>
     <url>
          <loc>https://pcileechfwgenerator.ramseymcgrath.com/api/cli/</loc>
-         <lastmod>2025-08-15</lastmod>
+         <lastmod>2025-08-16</lastmod>
     </url>
     <url>
          <loc>https://pcileechfwgenerator.ramseymcgrath.com/api/device_clone/</loc>
-         <lastmod>2025-08-15</lastmod>
+         <lastmod>2025-08-16</lastmod>
     </url>
     <url>
          <loc>https://pcileechfwgenerator.ramseymcgrath.com/api/error_utils/</loc>
-         <lastmod>2025-08-15</lastmod>
+         <lastmod>2025-08-16</lastmod>
     </url>
     <url>
          <loc>https://pcileechfwgenerator.ramseymcgrath.com/api/exceptions/</loc>
-         <lastmod>2025-08-15</lastmod>
+         <lastmod>2025-08-16</lastmod>
     </url>
     <url>
          <loc>https://pcileechfwgenerator.ramseymcgrath.com/api/file_management/</loc>
-         <lastmod>2025-08-15</lastmod>
+         <lastmod>2025-08-16</lastmod>
     </url>
     <url>
          <loc>https://pcileechfwgenerator.ramseymcgrath.com/api/flash_fpga/</loc>
-         <lastmod>2025-08-15</lastmod>
+         <lastmod>2025-08-16</lastmod>
     </url>
     <url>
          <loc>https://pcileechfwgenerator.ramseymcgrath.com/api/generate_cli/</loc>
-         <lastmod>2025-08-15</lastmod>
+         <lastmod>2025-08-16</lastmod>
     </url>
     <url>
          <loc>https://pcileechfwgenerator.ramseymcgrath.com/api/import_utils/</loc>
-         <lastmod>2025-08-15</lastmod>
+         <lastmod>2025-08-16</lastmod>
     </url>
     <url>
          <loc>https://pcileechfwgenerator.ramseymcgrath.com/api/log_config/</loc>
-         <lastmod>2025-08-15</lastmod>
+         <lastmod>2025-08-16</lastmod>
     </url>
     <url>
          <loc>https://pcileechfwgenerator.ramseymcgrath.com/api/pci_capability/</loc>
-         <lastmod>2025-08-15</lastmod>
+         <lastmod>2025-08-16</lastmod>
     </url>
     <url>
          <loc>https://pcileechfwgenerator.ramseymcgrath.com/api/pcileech_core_discovery/</loc>
-         <lastmod>2025-08-15</lastmod>
+         <lastmod>2025-08-16</lastmod>
     </url>
     <url>
          <loc>https://pcileechfwgenerator.ramseymcgrath.com/api/scripts/</loc>
-         <lastmod>2025-08-15</lastmod>
+         <lastmod>2025-08-16</lastmod>
     </url>
     <url>
          <loc>https://pcileechfwgenerator.ramseymcgrath.com/api/shell/</loc>
-         <lastmod>2025-08-15</lastmod>
+         <lastmod>2025-08-16</lastmod>
     </url>
     <url>
          <loc>https://pcileechfwgenerator.ramseymcgrath.com/api/string_utils/</loc>
-         <lastmod>2025-08-15</lastmod>
+         <lastmod>2025-08-16</lastmod>
     </url>
     <url>
          <loc>https://pcileechfwgenerator.ramseymcgrath.com/api/templating/</loc>
-         <lastmod>2025-08-15</lastmod>
+         <lastmod>2025-08-16</lastmod>
     </url>
     <url>
          <loc>https://pcileechfwgenerator.ramseymcgrath.com/api/tui/</loc>
-         <lastmod>2025-08-15</lastmod>
+         <lastmod>2025-08-16</lastmod>
     </url>
     <url>
          <loc>https://pcileechfwgenerator.ramseymcgrath.com/api/tui_cli/</loc>
-         <lastmod>2025-08-15</lastmod>
+         <lastmod>2025-08-16</lastmod>
     </url>
     <url>
          <loc>https://pcileechfwgenerator.ramseymcgrath.com/api/vivado_handling/</loc>
-         <lastmod>2025-08-15</lastmod>
+         <lastmod>2025-08-16</lastmod>
     </url>
 </urlset>

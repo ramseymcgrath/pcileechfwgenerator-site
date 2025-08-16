@@ -9,44 +9,6 @@ A modern Text User Interface (TUI) for the PCILeech firmware generation workflow
 
 ---
 
-## 📑 Table of Contents
-
-- [🔍 Overview](#-overview)
-- [🚀 Installation](#-installation)
-  - [Prerequisites](#prerequisites)
-  - [Install TUI Dependencies](#install-tui-dependencies)
-- [🎮 Usage](#-usage)
-  - [Launch TUI Mode](#launch-tui-mode)
-  - [TUI Interface Overview](#tui-interface-overview)
-- [✨ Features](#-features)
-  - [Device Management](#device-management)
-  - [Configuration Management](#configuration-management)
-  - [Build Monitoring](#build-monitoring)
-  - [System Integration](#system-integration)
-- [⚙️ Configuration Profiles](#️-configuration-profiles)
-  - [Profile Locations](#profile-locations)
-  - [Default Profiles](#default-profiles)
-  - [Creating Custom Profiles](#creating-custom-profiles)
-- [⌨️ Keyboard Shortcuts](#️-keyboard-shortcuts)
-- [🔧 Error Handling](#-error-handling)
-  - [Common Errors and Solutions](#common-errors-and-solutions)
-- [🚀 Advanced Features](#-advanced-features)
-  - [Behavior Profiling](#behavior-profiling)
-  - [System Status Monitoring](#system-status-monitoring)
-  - [Build Process Integration](#build-process-integration)
-  - [Configuration Validation](#configuration-validation)
-- [🐛 Troubleshooting](#-troubleshooting)
-  - [TUI Won't Start](#tui-wont-start)
-  - [Device Detection Issues](#device-detection-issues)
-  - [Build Failures](#build-failures)
-- [🛠️ Development](#️-development)
-  - [Architecture](#architecture)
-  - [Key Components](#key-components)
-  - [Extending the TUI](#extending-the-tui)
-- [🤝 Contributing](#-contributing)
-- [📄 License](#-license)
-- [⚠️ Disclaimer](#️-disclaimer)
-
 ---
 
 ## 🔍 Overview
