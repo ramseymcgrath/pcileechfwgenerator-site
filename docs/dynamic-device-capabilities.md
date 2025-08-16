@@ -323,7 +323,7 @@ def render_device_template(vendor_id, device_id, template_name):
         template_name,
         **config,
         timestamp=datetime.now(),
-        generator_version="1.0.0"
+        generator_version="0.13.0"
     )
 ```
 

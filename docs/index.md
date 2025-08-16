@@ -1,8 +1,97 @@
 # PCILeech Firmware Generator
 
-## 🔄 CI/CD Status
+**Generate Authentic PCIe DMA Firmware from Real Donor Hardware**
 
 [![CI](https://github.com/ramseymcgrath/PCILeechFWGenerator/workflows/CI/badge.svg?branch=main)](https://github.com/ramseymcgrath/PCILeechFWGenerator/actions/workflows/ci.yml)
+[![codecov](https://codecov.io/gh/ramseymcgrath/PCILeechFWGenerator/graph/badge.svg?token=JVX3C1WL86)](https://codecov.io/gh/ramseymcgrath/PCILeechFWGenerator)
+[![Python Version](https://img.shields.io/badge/python-3.9%2B-blue)](https://github.com/ramseymcgrath/PCILeechFWGenerator)
+[![License](https://img.shields.io/badge/license-MIT-green)](LICENSE.txt)
+[![Latest Release](https://img.shields.io/github/v/release/ramseymcgrath/PCILeechFWGenerator?include_prereleases)](https://github.com/ramseymcgrath/PCILeechFWGenerator/releases)
+[![Downloads](https://img.shields.io/github/downloads/ramseymcgrath/PCILeechFWGenerator/total)](https://github.com/ramseymcgrath/PCILeechFWGenerator/releases)
+
+The PCILeech Firmware Generator extracts authentic PCIe device configurations from real hardware and generates unique FPGA bitstreams for DMA operations. The tool uses VFIO drivers to access live PCIe devices and creates SystemVerilog firmware that replicates authentic device behavior.
+
+## Key Capabilities
+
+- **Hardware Configuration Extraction** - Extract real PCIe configurations from live hardware via VFIO
+- **Unique Firmware Generation** - Generate FPGA bitstreams with authentic device signatures  
+- **Direct Board Programming** - Flash firmware to DMA boards via integrated USB-JTAG support
+- **Advanced Template System** - SystemVerilog generation with modular template architecture
+- **Interactive Interface** - Text-based user interface for guided workflows
+- **Complete Config Space** - Full 4KB config-space shadow with BRAM-based overlay
+- **MSI-X Support** - Interrupt controller with timer-based event generation
+- **Containerized Builds** - Automated build pipeline with VFIO setup
+
+## Quick Installation
+
+```bash
+# Install with TUI support (recommended)
+pip install pcileechfwgenerator[tui]
+
+# Load kernel modules and start interactive interface
+sudo modprobe vfio vfio-pci && sudo python3 pcileech.py tui
+```
+
+**[Get Started](quick-start.md)** · **[Documentation](https://pcileechfwgenerator.ramseymcgrath.com)** · **[Troubleshooting](https://pcileechfwgenerator.ramseymcgrath.com/troubleshooting)**
+
+---
+
+## What Makes This Different
+
+| Feature | Traditional Approach | PCILeech FW Generator |
+|---------|---------------------|----------------------|
+| **Device Identity** | Generic placeholders | Real hardware extraction |
+| **Authenticity** | Easily detectable | Unique per-device variance |
+| **Config Space** | Limited emulation | Full 4KB shadow with BRAM |
+| **Capabilities** | Manual configuration | Dynamic detection & replication |
+| **MSI-X Support** | Basic implementation | Exact table replication |
+| **Build Process** | Manual setup | Containerized automation |
+
+> **Warning:** This tool requires real donor hardware. Templates use actual device identifiers extracted directly from physical PCIe cards. Using your own donor device ensures your firmware will be completely unique and authentic.
+
+## Advanced Features
+
+### Hardware Analysis
+- Real-time VFIO extraction from live PCIe devices
+- Complete register map analysis with power state management
+- Dynamic capability detection for MSI/MSI-X, PM, PCIe extensions
+- Automatic BAR discovery with memory/IO classification
+- Vendor-specific quirk handling for maximum compatibility
+
+### Firmware Generation
+- Deterministic variance seeding based on device serial numbers
+- Pattern-based capability synthesis for realistic network/storage/media controllers
+- Advanced SystemVerilog templates with modular architecture
+- Memory overlay mapping with configurable PIO windows
+- Active interrupt generation with timer-based and event-driven logic
+
+### Development Tools
+- Modern text-based user interface with real-time monitoring
+- Comprehensive test suites with SystemVerilog assertions
+- Automated CI/CD pipeline with multi-platform support
+- Containerized build environment with Podman integration
+- USB-JTAG flashing utilities for direct deployment
+
+## Supported Hardware
+
+### Donor Devices (Source Hardware)
+
+| Category | Examples | Notes |
+|----------|----------|-------|
+| **Network Cards** | Intel i210/i350, Broadcom BCM5719, Mellanox ConnectX | Excellent support |
+| **Storage Controllers** | NVMe, SATA, SAS controllers | Full BAR extraction |
+| **Audio Controllers** | Creative Sound Blaster, Realtek HD Audio | MSI-X replication |
+| **USB Controllers** | Intel xHCI, AMD USB 3.0 | Capability detection |
+| **Custom Hardware** | Any standard PCIe device | Universal compatibility |
+
+### Target FPGA Boards
+- `pcileech_35t325_x4` - Most popular, x4 PCIe slot
+- `pcileech_75t484_x1` - Compact x1 form factor  
+- `pcileech_100t484_x1` - High-end x1 variant
+
+## Status & Quality
+
+### CI/CD Pipeline Status
 [![SystemVerilog Validation](https://img.shields.io/badge/SystemVerilog-passing-brightgreen)](https://github.com/ramseymcgrath/PCILeechFWGenerator/actions/workflows/ci.yml)
 [![Unit Tests](https://img.shields.io/badge/Unit%20Tests-passing-brightgreen)](https://github.com/ramseymcgrath/PCILeechFWGenerator/actions/workflows/ci.yml)
 [![TUI Tests](https://img.shields.io/badge/TUI%20Tests-passing-brightgreen)](https://github.com/ramseymcgrath/PCILeechFWGenerator/actions/workflows/ci.yml)
@@ -10,272 +99,388 @@
 [![Packaging](https://img.shields.io/badge/Packaging-passing-brightgreen)](https://github.com/ramseymcgrath/PCILeechFWGenerator/actions/workflows/ci.yml)
 [![Documentation](https://img.shields.io/badge/Documentation-passing-brightgreen)](https://github.com/ramseymcgrath/PCILeechFWGenerator/actions/workflows/ci.yml)
 
-## 📊 Quality Metrics
-
-[![codecov](https://codecov.io/gh/ramseymcgrath/PCILeechFWGenerator/graph/badge.svg?token=JVX3C1WL86)](https://codecov.io/gh/ramseymcgrath/PCILeechFWGenerator)
-[![Code Quality](https://img.shields.io/badge/code%20quality-A-brightgreen)](https://github.com/ramseymcgrath/PCILeechFWGenerator/actions)
-[![Python Version](https://img.shields.io/badge/python-3.8%2B-blue)](https://github.com/ramseymcgrath/PCILeechFWGenerator)
-[![License](https://img.shields.io/badge/license-MIT-green)](LICENSE.txt)
-[![Latest Release](https://img.shields.io/github/v/release/ramseymcgrath/PCILeechFWGenerator?include_prereleases)](https://github.com/ramseymcgrath/PCILeechFWGenerator/releases)
-[![Downloads](https://img.shields.io/github/downloads/ramseymcgrath/PCILeechFWGenerator/total)](https://github.com/ramseymcgrath/PCILeechFWGenerator/releases)
-
-## 🏗️ Build Artifacts
-
+### Build Artifacts
 [![Package Build](https://img.shields.io/badge/packages-available-brightgreen)](https://github.com/ramseymcgrath/PCILeechFWGenerator/actions/workflows/ci.yml)
 [![Wheel](https://img.shields.io/badge/wheel-✓-green)](https://github.com/ramseymcgrath/PCILeechFWGenerator/actions/workflows/ci.yml)
 [![Source Distribution](https://img.shields.io/badge/sdist-✓-green)](https://github.com/ramseymcgrath/PCILeechFWGenerator/actions/workflows/ci.yml)
+[![Code Quality](https://img.shields.io/badge/code%20quality-A-brightgreen)](https://github.com/ramseymcgrath/PCILeechFWGenerator/actions)
 
-![Discord](https://dcbadge.limes.pink/api/shield/429866199833247744)
+## Use Cases
 
-Generate authentic PCIe DMA firmware from real donor hardware with a single command. This tool extracts donor configurations from a local device and generates unique PCILeech FPGA bitstreams (and optionally flashes a DMA card over USB-JTAG).
+### Security Research
 
-> [!WARNING]
-> This tool requires *real* hardware. The templates are built using the device identifiers directly from a donor card and placeholder values are explicitly avoided. Using your own donor device ensures your firmware will be unique.
+- **Penetration Testing** - Advanced DMA attack vectors for red team operations
+- **Hardware Security Assessment** - Analyze PCIe attack surfaces and defenses  
+- **Research & Development** - Study hardware-level security mechanisms
 
-## 🚀 Quick Start
+### Educational & Training
 
-### Quick Start
+- **PCIe Protocol Learning** - Hands-on experimentation with real hardware
+- **FPGA Development** - Learn SystemVerilog and FPGA design patterns
+- **Hardware Security Training** - Understand low-level attack and defense
 
-Ready to get started? Follow our step-by-step guide:
+### Development & Engineering
 
-**[📚 Quick Start Guide](quick-start.md)** - Complete walkthrough from installation to your first generated firmware
-
-### Installation
-
-```bash
-# Install with TUI support (recommended)
-pip install pcileechfwgenerator[tui]
-
-# Load required kernel modules
-sudo modprobe vfio vfio-pci
-
-# Start with interactive interface
-sudo python3 pcileech.py tui
-```
-
-### Development from Repository
-
-```bash
-git clone https://github.com/ramseymcgrath/PCILeechFWGenerator.git
-cd PCILeechFWGenerator
-python3 -m venv .venv && source .venv/bin/activate
-pip install -r requirements.txt
-sudo -E python3 pcileech.py tui
-```
-
-## ✨ Key Features
-
-- **Donor Hardware Analysis**: Extract real PCIe device configurations and register maps from live hardware via VFIO
-- **Dynamic Device Capabilities**: Generate realistic network, storage, media, and USB controller capabilities with pattern-based analysis
-- **Full 4KB Config-Space Shadow**: Complete configuration space emulation with BRAM-based overlay memory
-- **MSI-X Table Replication**: Exact replication of MSI-X tables from donor devices with interrupt delivery logic
-- **Deterministic Variance Seeding**: Consistent hardware variance based on device serial number for unique firmware
-- **Advanced SystemVerilog Generation**: Comprehensive PCIe device controller with modular template architecture
-- **Active Device Interrupts**: MSI-X interrupt controller with timer-based and event-driven interrupt generation
-- **Memory Overlay Mapping**: BAR dispatcher with configurable memory regions and custom PIO windows
-- **Interactive TUI**: Modern Textual-based interface with real-time device monitoring and guided workflows
-- **Containerized Build Pipeline**: Podman-based synthesis environment with automated VFIO setup
-- **Automated Testing and Validation**: Comprehensive test suite with SystemVerilog assertions and Python unit tests
-- **USB-JTAG Flashing**: Direct firmware deployment to DMA boards via integrated flash utilities
-
-📚 **[Complete Documentation](https://pcileechfwgenerator.ramseymcgrath.com)** | ⚡ **[Quick Start Guide](quick-start.md)** | 🔧 **[Troubleshooting Guide](https://pcileechfwgenerator.ramseymcgrath.com/troubleshooting)** | 🏗️ **[Device Cloning Guide](https://pcileechfwgenerator.ramseymcgrath.com/device-cloning)** | ⚡ **[Dynamic Capabilities](https://pcileechfwgenerator.ramseymcgrath.com/dynamic-device-capabilities)** | 🛠️ **[Development Setup](https://pcileechfwgenerator.ramseymcgrath.com/development)**
-
-## 🚀 Getting Started
-
-Ready to get started? Follow our step-by-step guide:
-
-**[📚 Quick Start Guide](quick-start.md)** - Complete walkthrough from installation to your first generated firmware
-
-### Installation
-
-```bash
-# Install with TUI support (recommended)
-pip install pcileechfwgenerator[tui]
-
-# Load required kernel modules
-sudo modprobe vfio vfio-pci
-
-# Start with interactive interface
-sudo python3 pcileech.py tui
-```
-
-### Requirements
-
-- **Python ≥ 3.9**
-- **Donor PCIe card** (any inexpensive NIC, sound, or capture card)  
-- **Linux OS** (required for VFIO)
-- **Root access** (required for hardware operations)
-
-### Optional Requirements
-
-- **Podman** (for containerized builds)
-- **DMA board** (pcileech_75t484_x1, pcileech_35t325_x4, or pcileech_100t484_x1)
-- **Vivado Studio** (2022.2+ for synthesis and bitstream generation)
-
-### Basic Usage
-
-```bash
-# Interactive TUI (recommended for first-time users)
-sudo python3 pcileech.py tui
-
-# CLI interface for scripted builds
-sudo python3 pcileech.py build --bdf 0000:03:00.0 --board pcileech_35t325_x4
-
-# Check VFIO configuration
-sudo python3 pcileech.py check --device 0000:03:00.0
-
-# Flash firmware to device
-sudo python3 pcileech.py flash build/firmware.bin
-```
-
-## 🎯 Use Cases
-
-### 🔬 Security Research
-- Penetration testing and red team operations
-- Hardware security assessment
-- DMA attack research and defense
-
-### 🎓 Educational
-- PCIe protocol learning and experimentation
-- FPGA development education
-- Hardware security training
-
-### 🧪 Development
-- PCIe device driver development
-- Hardware debugging and analysis
-- Custom DMA solution prototyping
-
-## 🏛️ Architecture Overview
-
-The PCILeech Firmware Generator uses a sophisticated multi-layer architecture:
-
-```mermaid
-graph TD
-    A[Donor Device] --> B[VFIO Driver]
-    B --> C[Configuration Extraction]
-    C --> D[Device Analysis]
-    D --> E[Template Engine]
-    E --> F[SystemVerilog Generation]
-    F --> G[FPGA Bitstream]
-    G --> H[DMA Card]
-```
-
-### Core Components
-
-- **[Configuration Space Manager](config-space-shadow.md)**: Handles PCIe config space extraction and emulation
-- **[Template Architecture](template-architecture.md)**: Flexible template system for firmware generation
-- **[Device Capabilities](dynamic-device-capabilities.md)**: Dynamic PCIe capability detection and implementation
-- **[Build System](development.md)**: Automated FPGA project generation and building
-
-## 📋 Requirements
-
-### System Requirements
-
-- **Operating System**: Linux (any modern distribution)
-- **Python**: 3.8 or higher (3.9+ recommended)
-- **Memory**: 4GB RAM minimum, 8GB recommended
-- **Storage**: 2GB free space for build artifacts
-
-### Hardware Requirements
-
-- **Donor PCIe Device**: Any PCIe device for configuration extraction
-- **FPGA Board**: pcileech_35t325_x4, pcileech_75t484_x1, or pcileech_100t484_x1
-- **USB-JTAG**: For optional FPGA programming
-
-### Software Dependencies
-
-- **VFIO Drivers**: For donor device access
-- **Podman** (optional): For containerized builds
-- **Xilinx Vivado**: 2022.2+ for synthesis (optional)
-- **Git**: For repository management
-
-## 🎯 Supported Devices
-
-The generator supports a wide range of PCIe devices:
-
-- **Network Cards**: Intel, Broadcom, Mellanox
-- **Storage Controllers**: NVMe, SATA, SAS
-- **Graphics Cards**: NVIDIA, AMD (basic support)
-- **Audio Controllers**: Creative, Realtek, Intel HD Audio
-- **USB Controllers**: Intel, AMD, NEC
-- **Custom Hardware**: Any standard PCIe device
-
-For a complete list, see [Supported Devices](supported-devices.md).
-
-## 🔧 Troubleshooting
-
-Having issues? Check our comprehensive **[Troubleshooting Guide](https://pcileechfwgenerator.ramseymcgrath.com/troubleshooting)** which covers:
-
-- **VFIO Setup Issues** - IOMMU configuration, module loading, device binding
-- **Installation Problems** - Package dependencies, container setup
-- **BAR Detection Issues** - Power state problems, device compatibility  
-- **Device-Specific Issues** - Known problems with specific hardware
-
-Quick diagnostic command:
-
-```bash
-# Check VFIO setup and device compatibility
-sudo python3 pcileech.py check --device 0000:03:00.0 --interactive
-```
-
-## 🔗 Direct Documentation Links
-
-- **[Troubleshooting Guide](https://pcileechfwgenerator.ramseymcgrath.com/troubleshooting)** - Comprehensive troubleshooting and diagnostic guide
-- **[Device Cloning Process](https://pcileechfwgenerator.ramseymcgrath.com/device-cloning)** - Complete guide to the cloning workflow
-- **[Firmware Uniqueness](https://pcileechfwgenerator.ramseymcgrath.com/firmware-uniqueness)** - How authenticity is achieved
-- **[Manual Donor Dump](https://pcileechfwgenerator.ramseymcgrath.com/manual-donor-dump)** - Step-by-step manual extraction
-- **[Development Setup](https://pcileechfwgenerator.ramseymcgrath.com/development)** - Contributing and development guide
-- **[TUI Documentation](https://pcileechfwgenerator.ramseymcgrath.com/tui-readme)** - Interactive interface guide
-- **[Config space info](https://pcileechfwgenerator.ramseymcgrath.com/config-space-shadow)** - Config space shadow info
-- **[Fallbacks & safe defaults](fallbacks.md)** - Guidance for first-time users about what may be safely defaulted and what must come from donor hardware
- - **[Finding missing values (Linux)](finding-missing-values.md)** - Quick Linux commands to find vendor/device IDs, BARs, revision/class codes and MSI/MSI-X support
-
-## 🧹 Cleanup & Safety
-
-- **Rebind donors**: Use TUI/CLI to rebind donor devices to original drivers
-- **Keep firmware private**: Generated firmware contains real device identifiers
-- **Use isolated build environments**: Never build on production systems
-- **Container cleanup**: `podman rmi pcileechfwgenerator:latest`
-
-## 🛡️ Security Considerations
-
-> [!IMPORTANT]
-> This tool is intended for educational research and legitimate PCIe development purposes only. Users are responsible for ensuring compliance with all applicable laws and regulations. The authors assume no liability for misuse of this software.
-
-### Best Practices
-
-- Only use on systems you own or have explicit permission to test
-- Follow responsible disclosure for any vulnerabilities discovered
-- Respect intellectual property and licensing requirements
-- Use appropriate safety measures when working with hardware
-
-## 🤝 Community
-
-- **GitHub**: [Issues and Pull Requests](https://github.com/ramseymcgrath/PCILeechFWGenerator)
-- **Discord**: Join our community server
-- **Documentation**: Comprehensive guides and tutorials
-
-## 🙏 Acknowledgments
-
-- **PCILeech Community**: For feedback and contributions
-- @Simonrak for the writemask implementation
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](https://github.com/ramseymcgrath/PCILeechFWGenerator/blob/main/LICENSE.txt) file for details.
-
-## ⚖️ Legal Notice
-
-*AGAIN* This tool is intended for educational research and legitimate PCIe development purposes only. Users are responsible for ensuring compliance with all applicable laws and regulations. The authors assume no liability for misuse of this software.
-
-**Security Considerations:**
-
-- Never build firmware on systems used for production or sensitive operations
-- Use isolated build environments (Separate dedicated hardware)
-- Keep generated firmware private and secure
-- Follow responsible disclosure practices for any security research
-- Use the SECURITY.md template to raise security concerns
+- **PCIe Driver Development** - Test drivers against realistic hardware behavior
+- **Hardware Debugging** - Analyze device behavior and register interactions
+- **Custom DMA Solutions** - Prototype specialized DMA implementations
 
 ---
 
-**Ready to get started?** Check out our [Quick Start Guide](quick-start.md) or read the [Installation Guide](installation.md) for detailed setup instructions!
+## Installation & Setup
+
+### Option 1: Package Installation (Recommended)
+
+```bash
+# Install with full TUI support
+pip install pcileechfwgenerator[tui]
+
+# Setup and start interactive interface  
+sudo modprobe vfio vfio-pci && sudo python3 pcileech.py tui
+```
+
+### Option 2: Development Setup
+
+```bash
+# Clone and setup development environment
+git clone https://github.com/ramseymcgrath/PCILeechFWGenerator.git
+cd PCILeechFWGenerator && python3 -m venv .venv && source .venv/bin/activate
+pip install -r requirements.txt && sudo -E python3 pcileech.py tui
+```
+
+### Option 3: Container Environment
+
+```bash
+# Use pre-built container with all dependencies
+podman run -it --privileged --device=/dev/vfio/vfio \
+  ghcr.io/ramseymcgrath/pcileechfwgenerator:latest
+```
+
+**[Complete Installation Guide](quick-start.md)** - Step-by-step setup for all platforms
+
+---
+
+## System Requirements
+
+| Requirement | Minimum | Recommended | Notes |
+|-------------|---------|-------------|-------|
+| **OS** | Linux (any distribution) | Ubuntu 22.04+ / Fedora 38+ | VFIO support required |
+| **Python** | 3.9+ | 3.11+ | Type hints and async support |
+| **Memory** | 4GB RAM | 8GB+ RAM | For Vivado synthesis |
+| **Storage** | 2GB free | 10GB+ free | Build artifacts and cache |
+| **Hardware** | Any PCIe slot | Dedicated test system | Donor device access |
+
+### Essential Commands
+
+```bash
+# Check VFIO setup and device compatibility  
+sudo python3 pcileech.py check --device 0000:03:00.0 --interactive
+
+# Generate firmware with guided workflow
+sudo python3 pcileech.py tui
+
+# Build firmware from command line
+sudo python3 pcileech.py build --bdf 0000:03:00.0 --board pcileech_35t325_x4
+
+# Flash generated firmware to DMA board
+sudo python3 pcileech.py flash build/pcileech_35t325_x4.bin
+```
+
+## Architecture Overview
+
+The PCILeech Firmware Generator employs a sophisticated multi-stage pipeline that transforms real hardware into authentic FPGA firmware:
+
+```mermaid
+graph TD
+    A[Donor PCIe Device] --> B[VFIO Driver Interface]
+    B --> C[Configuration Extraction Engine]
+    C --> D[Hardware Analysis & Validation]
+    D --> E[Template Engine & Renderer]
+    E --> F[SystemVerilog Generation]
+    F --> G[FPGA Build Pipeline]
+    G --> H[DMA Board Deployment]
+```
+
+### Core Technology Stack
+
+| Component | Technology | Purpose |
+|-----------|------------|---------|
+| **Hardware Interface** | VFIO/UIO Drivers | Direct PCIe device access |
+| **Config Extraction** | Python + ctypes | Raw register access & analysis |
+| **Template Engine** | Jinja2 + Custom Validators | Dynamic SystemVerilog generation |
+| **Build System** | Vivado TCL + Containerization | Automated FPGA synthesis |
+| **User Interface** | Textual TUI Framework | Interactive workflow guidance |
+| **Testing Framework** | pytest + SystemVerilog Assertions | Comprehensive validation |
+
+### Intelligent Analysis Features
+
+- **Dynamic Capability Detection** - Automatically discovers MSI/MSI-X, Power Management, PCIe extensions
+- **Pattern-Based Device Classification** - Identifies network, storage, audio, USB controllers by behavior
+- **Register Map Reconstruction** - Builds complete memory layout from BAR analysis  
+- **Authenticity Preservation** - Maintains real vendor signatures and hardware quirks
+- **Deterministic Variance** - Generates unique firmware while preserving device characteristics
+
+---
+
+## Documentation
+
+| Getting Started | Advanced Topics | Development |
+|:---:|:---:|:---:|
+| **[Quick Start Guide](quick-start.md)** | **[Device Cloning Process](https://pcileechfwgenerator.ramseymcgrath.com/device-cloning)** | **[Contributing Guide](https://pcileechfwgenerator.ramseymcgrath.com/development)** |
+| **[Installation Guide](installation.md)** | **[Config Space Shadow](https://pcileechfwgenerator.ramseymcgrath.com/config-space-shadow)** | **[Testing Framework](https://pcileechfwgenerator.ramseymcgrath.com/testing)** |
+| **[TUI Documentation](https://pcileechfwgenerator.ramseymcgrath.com/tui-readme)** | **[Template Architecture](template-architecture.md)** | **[API Reference](https://pcileechfwgenerator.ramseymcgrath.com/api)** |
+
+| Troubleshooting | References | Specialized Guides |
+|:---:|:---:|:---:|
+| **[Troubleshooting Guide](https://pcileechfwgenerator.ramseymcgrath.com/troubleshooting)** | **[Supported Devices](supported-devices.md)** | **[Dynamic Capabilities](https://pcileechfwgenerator.ramseymcgrath.com/dynamic-device-capabilities)** |
+| **[VFIO Setup Issues](https://pcileechfwgenerator.ramseymcgrath.com/vfio-setup)** | **[Fallbacks & Defaults](fallbacks.md)** | **[Firmware Uniqueness](https://pcileechfwgenerator.ramseymcgrath.com/firmware-uniqueness)** |
+| **[Finding Missing Values](finding-missing-values.md)** | **[Manual Donor Dump](https://pcileechfwgenerator.ramseymcgrath.com/manual-donor-dump)** | **[Advanced SystemVerilog](https://pcileechfwgenerator.ramseymcgrath.com/systemverilog)** |
+
+---
+
+## Troubleshooting & Support
+
+### Common Issues & Quick Fixes
+
+| Issue | Quick Check | Solution |
+|-------|-------------|----------|
+| **VFIO not detected** | `lsmod \| grep vfio` | Load modules: `sudo modprobe vfio vfio-pci` |
+| **Permission denied** | `ls -la /dev/vfio/` | Add user to vfio group or use sudo |
+| **Device binding fails** | `lspci -k` | Unbind driver: `echo [BDF] > /sys/bus/pci/drivers/[driver]/unbind` |
+| **Build errors** | Check container logs | Use containerized build: `podman run ...` |
+
+### Get Help & Support
+
+- **Found a bug?** → [Open an Issue](https://github.com/ramseymcgrath/PCILeechFWGenerator/issues/new/choose)
+- **Check docs?** → [Full Documentation](https://pcileechfwgenerator.ramseymcgrath.com)
+- **Quick diagnostic** → `sudo python3 pcileech.py check --device [BDF] --interactive`
+
+---
+
+## Security & Legal Considerations
+
+> **Important:** This tool is designed for educational research, security testing, and legitimate development purposes. Users must ensure compliance with all applicable laws and regulations.
+
+### Security Best Practices
+
+- **Isolated Testing** - Never use on production systems or networks
+- **Private Firmware** - Generated firmware contains real device signatures  
+- **Legal Compliance** - Ensure proper authorization for all testing activities
+- **Responsible Disclosure** - Report vulnerabilities through proper channels
+- **Data Protection** - Secure handling of extracted device configurations
+
+### Safety Guidelines
+
+- **Use dedicated hardware** for donor device extraction
+- **Backup original firmware** before flashing DMA boards
+- **Follow proper ESD procedures** when handling hardware
+- **Keep generated firmware secure** and never share publicly
+- **Use containerized builds** to isolate build environments
+
+---
+
+## Community & Contributions
+
+### Join Our Community
+
+- **GitHub** - [Issues & Pull Requests](https://github.com/ramseymcgrath/PCILeechFWGenerator)
+- **Documentation** - Comprehensive guides and tutorials
+- **Research** - Share findings and improvements
+
+### Ways to Contribute
+
+- **Bug Reports** - Help us identify and fix issues
+- **Feature Requests** - Suggest new capabilities  
+- **Documentation** - Improve guides and examples
+- **Testing** - Validate on new hardware platforms
+- **Code** - Submit patches and enhancements
+
+### Acknowledgments
+
+- **PCILeech Community** - Feedback, testing, and contributions
+- **@Simonrak** - Advanced writemask implementation
+- **Security Researchers** - Responsible vulnerability reporting
+- **Hardware Vendors** - Indirect support through public documentation
+
+---
+
+## License & Copyright
+
+This project is licensed under the **MIT License** - see [LICENSE.txt](https://github.com/ramseymcgrath/PCILeechFWGenerator/blob/main/LICENSE.txt) for complete details.
+
+### Legal Notice
+
+This software is provided for **educational and research purposes only**. Users are responsible for:
+
+- Ensuring compliance with local and international laws
+- Obtaining proper authorization for security testing  
+- Respecting intellectual property rights
+- Following responsible disclosure practices
+- Using appropriate safety measures with hardware
+
+**The authors assume no liability for misuse of this software.**
+
+---
+
+## Ready to Get Started?
+
+**[Quick Start Guide](quick-start.md)** · **[Installation](installation.md)** · **[Troubleshooting](https://pcileechfwgenerator.ramseymcgrath.com/troubleshooting)**
+
+---
+
+## 🏛️ **Architecture Deep Dive**
+
+The PCILeech Firmware Generator employs a sophisticated multi-stage pipeline that transforms real hardware into authentic FPGA firmware:
+
+```mermaid
+graph TD
+    A[💾 Donor PCIe Device] --> B[🔌 VFIO Driver Interface]
+    B --> C[📊 Configuration Extraction Engine]
+    C --> D[🔍 Hardware Analysis & Validation]
+    D --> E[🎨 Template Engine & Renderer]
+    E --> F[⚡ SystemVerilog Generation]
+    F --> G[🏗️ FPGA Build Pipeline]
+    G --> H[📡 DMA Board Deployment]
+    
+    style A fill:#e1f5fe
+    style H fill:#f3e5f5
+    style E fill:#fff3e0
+```
+
+### 🔧 **Core Technology Stack**
+
+| Component | Technology | Purpose |
+|-----------|------------|---------|
+| **Hardware Interface** | VFIO/UIO Drivers | Direct PCIe device access |
+| **Config Extraction** | Python + ctypes | Raw register access & analysis |
+| **Template Engine** | Jinja2 + Custom Validators | Dynamic SystemVerilog generation |
+| **Build System** | Vivado TCL + Containerization | Automated FPGA synthesis |
+| **User Interface** | Textual TUI Framework | Interactive workflow guidance |
+| **Testing Framework** | pytest + SystemVerilog Assertions | Comprehensive validation |
+
+### 🧠 **Intelligent Analysis Features**
+
+- **🔍 Dynamic Capability Detection** - Automatically discovers MSI/MSI-X, Power Management, PCIe extensions
+- **🎯 Pattern-Based Device Classification** - Identifies network, storage, audio, USB controllers by behavior
+- **⚡ Register Map Reconstruction** - Builds complete memory layout from BAR analysis  
+- **🔒 Authenticity Preservation** - Maintains real vendor signatures and hardware quirks
+- **🎲 Deterministic Variance** - Generates unique firmware while preserving device characteristics
+
+---
+
+## 📚 **Comprehensive Documentation Hub**
+
+<div align="center">
+
+| 🚀 **Getting Started** | 🔧 **Advanced Topics** | 🛠️ **Development** |
+|:---:|:---:|:---:|
+| **[Quick Start Guide](quick-start.md)** | **[Device Cloning Process](https://pcileechfwgenerator.ramseymcgrath.com/device-cloning)** | **[Contributing Guide](https://pcileechfwgenerator.ramseymcgrath.com/development)** |
+| **[Installation Guide](installation.md)** | **[Config Space Shadow](https://pcileechfwgenerator.ramseymcgrath.com/config-space-shadow)** | **[Testing Framework](https://pcileechfwgenerator.ramseymcgrath.com/testing)** |
+| **[TUI Documentation](https://pcileechfwgenerator.ramseymcgrath.com/tui-readme)** | **[Template Architecture](template-architecture.md)** | **[API Reference](https://pcileechfwgenerator.ramseymcgrath.com/api)** |
+
+| � **Troubleshooting** | 📖 **References** | 🎯 **Specialized Guides** |
+|:---:|:---:|:---:|
+| **[Troubleshooting Guide](https://pcileechfwgenerator.ramseymcgrath.com/troubleshooting)** | **[Supported Devices](supported-devices.md)** | **[Dynamic Capabilities](https://pcileechfwgenerator.ramseymcgrath.com/dynamic-device-capabilities)** |
+| **[VFIO Setup Issues](https://pcileechfwgenerator.ramseymcgrath.com/vfio-setup)** | **[Fallbacks & Defaults](fallbacks.md)** | **[Firmware Uniqueness](https://pcileechfwgenerator.ramseymcgrath.com/firmware-uniqueness)** |
+| **[Finding Missing Values](finding-missing-values.md)** | **[Manual Donor Dump](https://pcileechfwgenerator.ramseymcgrath.com/manual-donor-dump)** | **[Advanced SystemVerilog](https://pcileechfwgenerator.ramseymcgrath.com/systemverilog)** |
+
+</div>
+
+---
+
+## 🔧 **Troubleshooting & Support**
+
+### 🚨 **Common Issues & Quick Fixes**
+
+| Issue | Quick Check | Solution |
+|-------|-------------|----------|
+| **VFIO not detected** | `lsmod \| grep vfio` | Load modules: `sudo modprobe vfio vfio-pci` |
+| **Permission denied** | `ls -la /dev/vfio/` | Add user to vfio group or use sudo |
+| **Device binding fails** | `lspci -k` | Unbind driver: `echo [BDF] > /sys/bus/pci/drivers/[driver]/unbind` |
+| **Build errors** | Check container logs | Use containerized build: `podman run ...` |
+
+### 📞 **Get Help & Support**
+
+- **🐛 Found a bug?** → [Open an Issue](https://github.com/ramseymcgrath/PCILeechFWGenerator/issues/new/choose)
+- **📖 Check docs?** → [Full Documentation](https://pcileechfwgenerator.ramseymcgrath.com)
+- **🔧 Quick diagnostic** → `sudo python3 pcileech.py check --device [BDF] --interactive`
+
+---
+
+## 🛡️ **Security & Legal Considerations**
+
+> [!IMPORTANT]
+> **Ethical Use Only**: This tool is designed for educational research, security testing, and legitimate development purposes. Users must ensure compliance with all applicable laws and regulations.
+
+### 🔒 **Security Best Practices**
+
+- **🏠 Isolated Testing** - Never use on production systems or networks
+- **🔐 Private Firmware** - Generated firmware contains real device signatures  
+- **⚖️ Legal Compliance** - Ensure proper authorization for all testing activities
+- **🤝 Responsible Disclosure** - Report vulnerabilities through proper channels
+- **🛡️ Data Protection** - Secure handling of extracted device configurations
+
+### 📋 **Safety Guidelines**
+
+- **Use dedicated hardware** for donor device extraction
+- **Backup original firmware** before flashing DMA boards
+- **Follow proper ESD procedures** when handling hardware
+- **Keep generated firmware secure** and never share publicly
+- **Use containerized builds** to isolate build environments
+
+---
+
+## 🤝 **Community & Contributions**
+
+### 🌟 **Join Our Community**
+
+- **📧 GitHub** - [Issues & Pull Requests](https://github.com/ramseymcgrath/PCILeechFWGenerator)
+- **📖 Documentation** - Comprehensive guides and tutorials
+- **🔬 Research** - Share findings and improvements
+
+### 🎯 **Ways to Contribute**
+
+- **🐛 Bug Reports** - Help us identify and fix issues
+- **✨ Feature Requests** - Suggest new capabilities  
+- **📝 Documentation** - Improve guides and examples
+- **🧪 Testing** - Validate on new hardware platforms
+- **💻 Code** - Submit patches and enhancements
+
+### 🙏 **Acknowledgments**
+
+- **PCILeech Community** - Feedback, testing, and contributions
+- **@Simonrak** - Advanced writemask implementation
+- **Security Researchers** - Responsible vulnerability reporting
+- **Hardware Vendors** - Indirect support through public documentation
+
+---
+
+## 📄 **License & Copyright**
+
+This project is licensed under the **MIT License** - see [LICENSE.txt](https://github.com/ramseymcgrath/PCILeechFWGenerator/blob/main/LICENSE.txt) for complete details.
+
+### ⚖️ **Legal Notice**
+
+This software is provided for **educational and research purposes only**. Users are responsible for:
+
+- Ensuring compliance with local and international laws
+- Obtaining proper authorization for security testing  
+- Respecting intellectual property rights
+- Following responsible disclosure practices
+- Using appropriate safety measures with hardware
+
+**The authors assume no liability for misuse of this software.**
+
+---
+
+<div align="center">
+
+## 🚀 **Ready to Get Started?**
+
+**[📚 Quick Start Guide](quick-start.md)** · **[📖 Installation](installation.md)** · **[🔧 Troubleshooting](https://pcileechfwgenerator.ramseymcgrath.com/troubleshooting)**
+
+---
+
+*Transform your PCIe hardware knowledge into authentic FPGA firmware today!*
+
+</div>
